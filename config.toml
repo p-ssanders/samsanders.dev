@@ -1,0 +1,32 @@
+baseURL = "/"
+languageCode = "en"
+defaultContentLanguage = "en"
+title = "Sam Sanders"
+theme = "hallo"
+googleAnalytics = ""
+disableKinds = ["page", "section", "taxonomy", "taxonomyTerm"]
+
+[Author]
+  name = "Sam Sanders"
+
+[params]
+  greeting = "Hi"
+  description = "Sam Sanders - software developer, and web consultant based in Boulder, CO"
+  author = "Sam Sanders"
+  email = "sam@samsanders.dev"
+ 
+  [[params.links]]
+    iconset = "fas"
+    icon = "envelope"
+    title = "Email"
+    url = "mailto:sam@samsanders.dev"
+
+  [[params.links]]
+    icon = "linkedin"
+    title = "LinkedIn"
+    url = "https://www.linkedin.com/in/samuelesanders/"
+
+[params.colors]
+  background = "#FFF8E1"
+  foreground = "#424242"
+  hover = "#FFAB00"

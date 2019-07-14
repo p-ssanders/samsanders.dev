@@ -27,6 +27,6 @@ disableKinds = ["page", "section", "taxonomy", "taxonomyTerm"]
     url = "https://www.linkedin.com/in/samuelesanders/"
 
 [params.colors]
-  background = "#000000"
+  background = "#FAFAFA"
   foreground = "#424242"
-  hover = "#FFAB00"
+  hover = "#1E88E5"

@@ -10,16 +10,16 @@ disableKinds = ["page", "section", "taxonomy", "taxonomyTerm"]
   name = "Sam Sanders"
 
 [params]
-  greeting = "Hi"
-  description = "Sam Sanders - software developer, and web consultant based in Boulder, CO"
+  greeting = "Hello!"
+  description = "Sam Sanders is software developer and website consultant based in Boulder, CO, USA."
   author = "Sam Sanders"
-  email = "sam@samsanders.dev"
+  email = "hello@samsanders.dev"
  
   [[params.links]]
     iconset = "fas"
     icon = "envelope"
     title = "Email"
-    url = "mailto:sam@samsanders.dev"
+    url = "mailto:hello@samsanders.dev"
 
   [[params.links]]
     icon = "linkedin"
@@ -28,5 +28,5 @@ disableKinds = ["page", "section", "taxonomy", "taxonomyTerm"]
 
 [params.colors]
   background = "#FAFAFA"
-  foreground = "#424242"
-  hover = "#1E88E5"
+  foreground = "#212121"
+  hover = "#d81b60"

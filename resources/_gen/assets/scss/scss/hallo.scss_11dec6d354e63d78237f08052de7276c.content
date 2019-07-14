@@ -1,6 +1,6 @@
 html,
 body {
-  color: #424242;
+  color: #212121;
   margin: 1rem;
   padding: 0; }
 
@@ -16,9 +16,9 @@ a {
   -webkit-transition: color 0.2s ease-out;
   -moz-transition: color 0.2s ease-out;
   transition: color 0.2s ease-out;
-  color: #424242; }
+  color: #212121; }
   a:hover {
-    color: #1E88E5; }
+    color: #d81b60; }
 
 h1 {
   font-size: 9rem; }
@@ -36,7 +36,7 @@ h2 {
 img.portrait {
   box-sizing: border-box;
   border-radius: 50%;
-  border: 10px solid #424242;
+  border: 10px solid #212121;
   margin: 2em 3em;
   width: 100%;
   height: auto;

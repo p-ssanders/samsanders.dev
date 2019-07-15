@@ -7,4 +7,3 @@ artifacts:
   files:
   - '**/*'
   base-directory: 'public'
-  discard-paths: true

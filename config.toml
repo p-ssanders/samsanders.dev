@@ -1,9 +1,9 @@
-baseURL = "/"
+baseURL = "https://samsanders.dev/"
 languageCode = "en"
 defaultContentLanguage = "en"
 title = "Sam Sanders"
 theme = "hallo"
-googleAnalytics = ""
+googleAnalytics = "UA-143899138-1"
 disableKinds = ["page", "section", "taxonomy", "taxonomyTerm"]
 
 [Author]

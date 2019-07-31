@@ -26,6 +26,12 @@ disableKinds = ["page", "section", "taxonomy", "taxonomyTerm"]
     title = "LinkedIn"
     url = "https://www.linkedin.com/in/samuelesanders/"
 
+  [[params.links]]
+    iconset = "fas"
+    icon = "file"
+    title = "Resume"
+    url = "https://docs.google.com/document/d/e/2PACX-1vQ0jm0M2F0yEJbAbVMzTsf2ju_7yqGOxNqUFwevS-urYUjK3KaiRfPIiKkkVGfCgAfjlVAtumg9TJCl/pub"
+
 [params.colors]
   background = "#FAFAFA"
   foreground = "#212121"

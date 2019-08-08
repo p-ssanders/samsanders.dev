@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Sam&#39;s Blog on Sam Sanders</title>
+    <title>Blog on Sam Sanders</title>
     <link>https://samsanders.dev/blog/</link>
-    <description>Recent content in Sam&#39;s Blog on Sam Sanders</description>
+    <description>Recent content in Blog on Sam Sanders</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 08 Aug 2019 00:00:00 +0000</lastBuildDate>
@@ -12,12 +12,24 @@
     
     
     <item>
-      <title>First</title>
+      <title>Second Post</title>
+      <link>https://samsanders.dev/blog/second/</link>
+      <pubDate>Thu, 08 Aug 2019 14:19:37 -0600</pubDate>
+      
+      <guid>https://samsanders.dev/blog/second/</guid>
+      <description>This is another blog post.
+Just checking to see how it looks when multiple posts are listed.</description>
+    </item>
+    
+    <item>
+      <title>First Post</title>
       <link>https://samsanders.dev/blog/first/</link>
       <pubDate>Thu, 08 Aug 2019 12:37:14 -0600</pubDate>
       
       <guid>https://samsanders.dev/blog/first/</guid>
-      <description>hihihih</description>
+      <description>Hi, this is my first blog post.
+First blog posts can be really meaningful, or they can be a throwaway.
+This is probably a throwaway.</description>
     </item>
     
   </channel>

@@ -10,7 +10,7 @@ phases:
     commands:
     - echo "building"
     - curl -Ls https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz -o /tmp/hugo.tar.gz
-    - echo "${HUGO_SHA256}" /tmp/hugo.tar.gz" | sha256sum -c -
+    - echo "${HUGO_SHA256} /tmp/hugo.tar.gz" | sha256sum -c -
     - tar xf /tmp/hugo.tar.gz -C /tmp
     - mv /tmp/hugo /usr/bin/hugo
     - rm -rf /tmp/hugo*

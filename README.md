@@ -1,20 +1,11 @@
 #   samsanders.dev
 
-Personal website built with Hugo.
+Personal website & blog. Built with Hugo. Hosted on AWS.
 
-### Generate Certificates
-
-```
-sudo certbot \
-        --server https://acme-v02.api.letsencrypt.org/directory \
-        -d samsanders.dev \
-        -d *.samsanders.dev \
-        --manual --preferred-challenges dns-01 certonly
-```
-
-### Setup
+##  Tools
 *   GitHub
-*   S3
-*   CodeBuild
-*   CodePipeline
-*   Cloudfront
+*   Let's Encrypt
+*   Amazon S3
+*   AWS CodePipeline
+*   AWS CodeBuild
+*   Amazon Cloudfront

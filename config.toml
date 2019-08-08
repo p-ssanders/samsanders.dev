@@ -21,6 +21,11 @@ disableKinds = ["taxonomy", "taxonomyTerm"]
     url = "https://www.linkedin.com/in/samuelesanders/"
 
   [[params.links]]
+    icon = "github"
+    title = "GitHub"
+    url = "https://github.com/southp4w"
+
+  [[params.links]]
     iconset = "fas"
     icon = "envelope"
     title = "Email"

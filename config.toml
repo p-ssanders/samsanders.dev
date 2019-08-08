@@ -4,7 +4,7 @@ defaultContentLanguage = "en"
 title = "Sam Sanders"
 theme = "hallo"
 googleAnalytics = "UA-143899138-1"
-disableKinds = ["page", "section", "taxonomy", "taxonomyTerm"]
+disableKinds = ["taxonomy", "taxonomyTerm"]
 
 [Author]
   name = "Sam Sanders"
@@ -16,21 +16,15 @@ disableKinds = ["page", "section", "taxonomy", "taxonomyTerm"]
   email = "hello@samsanders.dev"
  
   [[params.links]]
-    iconset = "fas"
-    icon = "envelope"
-    title = "Email"
-    url = "mailto:hello@samsanders.dev"
-
-  [[params.links]]
     icon = "linkedin"
     title = "LinkedIn"
     url = "https://www.linkedin.com/in/samuelesanders/"
 
   [[params.links]]
     iconset = "fas"
-    icon = "file"
-    title = "Resume"
-    url = "https://docs.google.com/document/d/e/2PACX-1vQ0jm0M2F0yEJbAbVMzTsf2ju_7yqGOxNqUFwevS-urYUjK3KaiRfPIiKkkVGfCgAfjlVAtumg9TJCl/pub"
+    icon = "envelope"
+    title = "Email"
+    url = "mailto:hello@samsanders.dev"
 
 [params.colors]
   background = "#FAFAFA"

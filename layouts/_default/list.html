@@ -1,0 +1,22 @@
+{{ partial "head.html" . }}
+
+<div class="nav">
+    <a href="/">home</a> |
+    <a href="https://docs.google.com/document/d/e/2PACX-1vQ0jm0M2F0yEJbAbVMzTsf2ju_7yqGOxNqUFwevS-urYUjK3KaiRfPIiKkkVGfCgAfjlVAtumg9TJCl/pub">resume</a>
+</div>
+<h1>{{ .Title }}</h1>
+<main class="blog">
+  {{ range .Data.Pages }}
+  <article class="post">
+      <h2>
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+        <p class="small gray">
+          <time datetime="{{ .Date.Format "2006-01-02" }}" class="small gray">{{ .Date.Format "Jan 02, 2006" }}</time>
+        </p>
+      </h2>
+      <p>{{ .Summary }}</p>
+      <p><a href="{{ .Permalink }}" class="very-small">Read more »</a></p>
+  </article>
+  {{ end }}
+</main>
+

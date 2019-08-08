@@ -16,7 +16,8 @@ phases:
     - rm -rf /tmp/hugo*
   build:
     commands:
-    - hugo --debug
+    - git submodule update --init --recursive
+    - hugo
 artifacts:
   files:
   - '**/*'

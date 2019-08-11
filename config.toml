@@ -5,6 +5,7 @@ title = "Sam Sanders"
 theme = "hallo"
 googleAnalytics = "UA-143899138-1"
 disableKinds = ["taxonomy", "taxonomyTerm"]
+enableEmoji = true
 
 [Author]
   name = "Sam Sanders"

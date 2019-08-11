@@ -1,0 +1,168 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+            How I Made This &middot; Sam Sanders
+    </title>
+
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/sam.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="Sam Sanders" />
+
+    
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-143899138-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    
+</head>
+
+
+<div class="nav">
+    <a href="/blog">blog</a> |
+    <a href="/">home</a> |
+    <a href="https://docs.google.com/document/d/e/2PACX-1vQ0jm0M2F0yEJbAbVMzTsf2ju_7yqGOxNqUFwevS-urYUjK3KaiRfPIiKkkVGfCgAfjlVAtumg9TJCl/pub">resume</a>
+</div>
+
+<h1>How I Made This</h1>
+
+<main class="blog">
+<article class="post">
+
+  <h2>
+    <p class="small gray">
+      <time datetime="2019-08-11">Aug 11, 2019</time>
+    </p>
+  </h2>
+
+  <p>I wanted to make a website for myself, and to have a place where I could write things. Writing things that are available to the public internet is scary, but I figured it would help keep me honest. I also wanted to learn a new way to make a website. Now that I have one, I can write how I made it.</p>
+
+<h3 id="domain">Domain</h3>
+
+<p>The first thing I did was get the domain: <code>samsanders.dev</code>.</p>
+
+<p>According to Google, the <code>.dev</code> TLD is:</p>
+
+<blockquote>
+<p>A domain just for developers</p>
+
+<p>From tools to platforms, languages to blogs, .dev is a home for all the interesting things that you build. .dev lets your clients know what you do before they even open your site.</p>
+</blockquote>
+
+<p>Sounds about right for my use case, so I used <a href="https://domains.google/">Google Domains</a> to purchase it.</p>
+
+<p>The one caveat of using a <code>.dev</code> domain is they&rsquo;re automatically added to Chrome&rsquo;s <a href="https://hstspreload.org/">HSTS preload list</a>, so HTTPS is required on all connections. This implies you need an SSL certificate. Works for me.</p>
+
+<h3 id="hosting">Hosting</h3>
+
+<p>I knew that you could use <a href="https://aws.amazon.com/">AWS</a> to host a website, specifically with <a href="https://aws.amazon.com/s3/">Amazon S3</a>, but I didn&rsquo;t really know <em>how</em> that worked.</p>
+
+<p>I first read the document <a href="https://aws.amazon.com/websites/">Web Hosting</a>. This confirmed that S3 was a viable solution.</p>
+
+<p>I followed <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/HostingWebsiteOnS3Setup.html">this walkthough</a> to prove the concept to myself with a throwaway <code>index.html</code> document.</p>
+
+<h3 id="static-site-generator">Static Site Generator</h3>
+
+<p>I had a domain, and a way to host my site. Now I needed a way to build the site. I wanted a simple page to introduce myself, and the potential to make a blog.</p>
+
+<p>I knew about static site generators, e.g.: <a href="https://jekyllrb.com/">Jekyll</a>, so I did some research to learn more.</p>
+
+<p>Eventually I decided to use <a href="https://gohugo.io/">Hugo</a> which seemed to be the top contender to Jekyll, but won me over because it&rsquo;s written in Go, and therefore it&rsquo;s just a binary you put somewhere on your <code>PATH</code>.</p>
+
+<p>I liked the idea of themes, so I didn&rsquo;t have to write much HTML or CSS, and instead could just focus on content by writing some markdown.</p>
+
+<p>It didn&rsquo;t exactly work out that way, but a lot the work was done for me by choosing a theme. To start I went with the <a href="https://themes.gohugo.io/hallo-hugo/">Hallo</a> theme. Simple, clean, and served my initial requirement of wanting to make a simple website for myself. It didn&rsquo;t, however, have any blog capabilities.</p>
+
+<p>Now I could build the site, upload it to my S3 bucket, and see it when I browsed to the bucket URL.</p>
+
+<h3 id="source-control">Source Control</h3>
+
+<p>My first commit was just a working Hugo build with the Hallo theme. I pushed this up to <a href="https://github.com/southp4w/samsanders.dev">GitHub</a> so I could have the code available to myself wherever I was.</p>
+
+<h3 id="tls-certificates">TLS Certificates</h3>
+
+<p>Before I could use my custom <code>.dev</code> domain, I needed TLS certificates. I&rsquo;m a fan of <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a>, mostly because it&rsquo;s free.</p>
+
+<p>I created a Hosted Zone in Amazon Route 53 for <code>samsanders.dev</code>. I then updated my Google Domains name servers to the ones assigned by Amazon to my Hosted Zone.</p>
+
+<p>I generated certificates using <code>certbot</code>:</p>
+
+<pre><code>sudo certbot \
+  --server https://acme-v02.api.letsencrypt.org/directory \
+  -d samsanders.dev \
+  -d *.samsanders.dev \
+  --manual --preferred-challenges dns-01 certonly
+</code></pre>
+
+<h3 id="using-a-custom-domain">Using a Custom Domain</h3>
+
+<p>I wanted to use <code>samsanders.dev</code>, but S3 doesn&rsquo;t have any features that support TLS. I did some research and found that <a href="https://aws.amazon.com/cloudfront/">Amazon CloudFront</a> is the <a href="https://aws.amazon.com/premiumsupport/knowledge-center/cloudfront-https-requests-s3/">suggested solution</a> to this problem.</p>
+
+<p>It seems like a big solution to a small problem (i.e.: I didn&rsquo;t <em>need</em> a CDN), but I never used CloudFront before, it seemed simple, cheap, and wanted to try it.</p>
+
+<p>So I setup a CloudFront distribution with my Let&rsquo;s Encrypt certificates, and created DNS entries to point to the distribution. Since my certificate includes the wildcard domain <code>*.samsanders.dev</code>, I created a CNAME record for <code>www.</code> and an A record for the apex domain. Route53 allows you to create A records for apex domains that point to CloudFront distributions (instead of IP addresses), which is a really cool feature.</p>
+
+<p>After a lot of waiting for AWS, I had a static site served at <code>https://samsanders.dev</code> with valid certificates. Cool!</p>
+
+<h3 id="ci-cd">CI/CD</h3>
+
+<p>I wanted a way to rollout changes to my site when I pushed new commits to GitHub. I did some research, and found that Amazon offers <a href="https://aws.amazon.com/codepipeline/">AWS CodePipeline</a>.</p>
+
+<p>I setup a pipeline with a Source stage that polled my GitHub repository, and a Deploy stage that pushed to my S3 bucket.</p>
+
+<p>But it didn&rsquo;t work ☹</p>
+
+<p>The integration was fine: I could push to GitHub to trigger a deployment. But the site was broken.</p>
+
+<p>When Hugo builds your site, it creates (by default), a folder called <code>public</code> in which your publishable site lives. But when AWS CodePipeline has a Source, and Deploy stage, everything in the repository gets copied to the bucket. I just wanted the <code>public</code> folder copied.</p>
+
+<p>Luckily, Amazon has an <a href="https://aws.amazon.com/codebuild/">AWS CodeBuild</a> for building code. So I made a build project that ran at first just by using some commands I typed directly into the build project. I wired the build project into the CodePipeline by adding a Build stage.</p>
+
+<p>Again, the integration worked fine, but the build didn&rsquo;t do what I wanted. I researched the <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html">Buildspec</a> concept within AWS, and dediced to make a <a href="https://github.com/southp4w/samsanders.dev/blob/master/buildspec.yml">buildspec.yml</a> file that would live in the root directory of my repository, and instruct CodeBuild.</p>
+
+<p>I liked this solution because I wanted my build in source control, and since I was still comitting the <code>public</code> directory to GitHub, the <code>buildspec.yml</code> was very simple: it made sure to <em>only</em> copy the <code>public</code> folder.</p>
+
+<p>I tried migrating the Hugo build to CodeBuild, but I&rsquo;m using the <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</a> approach to Hugo themes, and CodeBuild doesn&rsquo;t have great support for that use case yet. The solution is to do the <code>git clone</code> yourself via the <code>buildspec.yml</code> so that you can also clone the submodule. Yuck. But it&rsquo;s on my <code>TODO</code> list.</p>
+
+<h3 id="blog">Blog</h3>
+
+<p>My site worked, and my theme was sufficient for a personal landing page. But it didn&rsquo;t have blog capability.</p>
+
+<p>I searched for Hugo themes that did have blog capabilities, hoping I could install another theme via submodule, and use it when using the <code>hugo new</code> command to create blog posts.</p>
+
+<p>I didn&rsquo;t find any blog themes I loved, so I decided to learn more Hugo so I could make my own blog.</p>
+
+<p>I read the Hugo docs, and created a <code>blog</code> folder, with an <code>_index.md</code> file. I created default layouts for <code>list</code> types, and <code>single</code> types for the blog index, and the individual blog post pages, respectively. I used <a href="https://themes.gohugo.io/heather-hugo/">Heather Hugo</a> as my primary design inspiration.</p>
+
+<p>I added some navigation to get to the blog from the landing page, and back.</p>
+
+<p>There was definitely a learning curve with Hugo, and its terminology, but now I have a site with a cool domain, and simple landing page, and place where I can write things down. Plus all traffic to it is secure!</p>
+
+
+  <p class="back">
+    <a href="/blog" class="gray">« back</a>
+  </p>
+
+</article>
+</main>
+

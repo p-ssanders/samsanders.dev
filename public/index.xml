@@ -6,10 +6,19 @@
     <description>Recent content on Sam Sanders</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Aug 2019 14:19:37 -0600</lastBuildDate>
+    <lastBuildDate>Sun, 11 Aug 2019 09:17:41 -0600</lastBuildDate>
     
 	<atom:link href="https://samsanders.dev/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How I Made This</title>
+      <link>https://samsanders.dev/blog/how-i-made-this/</link>
+      <pubDate>Sun, 11 Aug 2019 09:17:41 -0600</pubDate>
+      
+      <guid>https://samsanders.dev/blog/how-i-made-this/</guid>
+      <description>&lt;p&gt;I wanted to make a website for myself, and to have a place where I could write things. Writing things that are available to the public internet is scary, but I figured it would help keep me honest. I also wanted to learn a new way to make a website. Now that I have one, I can write how I made it.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Second Post</title>

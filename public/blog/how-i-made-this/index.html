@@ -118,7 +118,7 @@ if (!doNotTrack) {
 
 <p>I wanted to use <code>samsanders.dev</code>, but S3 doesn&rsquo;t have any features that support TLS. I did some research and found that <a href="https://aws.amazon.com/cloudfront/">Amazon CloudFront</a> is the <a href="https://aws.amazon.com/premiumsupport/knowledge-center/cloudfront-https-requests-s3/">suggested solution</a> to this problem.</p>
 
-<p>It seems like a big solution to a small problem (i.e.: I didn&rsquo;t <em>need</em> a CDN), but I never used CloudFront before, it seemed simple, cheap, and wanted to try it.</p>
+<p>It seems like a big solution to a small problem (i.e.: I didn&rsquo;t <em>need</em> a CDN), but it also seemed simple to implement, cheap, and valid.</p>
 
 <p>So I setup a CloudFront distribution with my Let&rsquo;s Encrypt certificates, and created DNS entries to point to the distribution. Since my certificate includes the wildcard domain <code>*.samsanders.dev</code>, I created a CNAME record for <code>www.</code> and an A record for the apex domain. Route53 allows you to create A records for apex domains that point to CloudFront distributions (instead of IP addresses), which is a really cool feature.</p>
 
@@ -136,13 +136,13 @@ if (!doNotTrack) {
 
 <p>When Hugo builds your site, it creates (by default), a folder called <code>public</code> in which your publishable site lives. But when AWS CodePipeline has a Source, and Deploy stage, everything in the repository gets copied to the bucket. I just wanted the <code>public</code> folder copied.</p>
 
-<p>Luckily, Amazon has an <a href="https://aws.amazon.com/codebuild/">AWS CodeBuild</a> for building code. So I made a build project that ran at first just by using some commands I typed directly into the build project. I wired the build project into the CodePipeline by adding a Build stage.</p>
+<p>Luckily, Amazon has <a href="https://aws.amazon.com/codebuild/">AWS CodeBuild</a> for building code. So I made a build project that ran some commands I typed directly into the build project. I wired the build project into the CodePipeline by adding a Build stage.</p>
 
 <p>Again, the integration worked fine, but the build didn&rsquo;t do what I wanted. I researched the <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html">Buildspec</a> concept within AWS, and dediced to make a <a href="https://github.com/southp4w/samsanders.dev/blob/master/buildspec.yml">buildspec.yml</a> file that would live in the root directory of my repository, and instruct CodeBuild.</p>
 
-<p>I liked this solution because I wanted my build in source control, and since I was still comitting the <code>public</code> directory to GitHub, the <code>buildspec.yml</code> was very simple: it made sure to <em>only</em> copy the <code>public</code> folder.</p>
+<p>I liked this solution because I wanted my build in source control, and since I was still comitting the <code>public</code> directory to GitHub, the <code>buildspec.yml</code> was very simple: it made sure to copy only the <code>public</code> folder.</p>
 
-<p>I tried migrating the Hugo build to CodeBuild, but I&rsquo;m using the <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</a> approach to Hugo themes, and CodeBuild doesn&rsquo;t have great support for that use case yet. The solution is to do the <code>git clone</code> yourself via the <code>buildspec.yml</code> so that you can also clone the submodule. Yuck. But it&rsquo;s on my <code>TODO</code> list.</p>
+<p>I tried migrating the Hugo build to CodeBuild, but I&rsquo;m using the <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</a> approach to Hugo themes, and CodeBuild doesn&rsquo;t have great support for that use case yet. The solution is to do the <code>git clone</code> yourself via the <code>buildspec.yml</code> so that you can also clone the submodule. Yuck. But it&rsquo;s on my TODO list.</p>
 
 <h3 id="blog">Blog</h3>
 
@@ -152,7 +152,7 @@ if (!doNotTrack) {
 
 <p>I didn&rsquo;t find any blog themes I loved, so I decided to learn more Hugo so I could make my own blog.</p>
 
-<p>I read the Hugo docs, and created a <code>blog</code> folder, with an <code>_index.md</code> file. I created default layouts for <code>list</code> types, and <code>single</code> types for the blog index, and the individual blog post pages, respectively. I used <a href="https://themes.gohugo.io/heather-hugo/">Heather Hugo</a> as my primary design inspiration.</p>
+<p>I read the Hugo docs, and created a <code>blog</code> folder with an <code>_index.md</code> file inside it. I created default layouts for <code>list</code> types, and <code>single</code> types for the blog index, and the individual blog post pages, respectively. I used <a href="https://themes.gohugo.io/heather-hugo/">Heather Hugo</a> as my primary design inspiration.</p>
 
 <p>I added some navigation to get to the blog from the landing page, and back.</p>
 

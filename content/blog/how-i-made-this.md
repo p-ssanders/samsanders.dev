@@ -72,7 +72,7 @@ sudo certbot \
 
 I wanted to use `samsanders.dev`, but S3 doesn't have any features that support TLS. I did some research and found that [Amazon CloudFront](https://aws.amazon.com/cloudfront/) is the [suggested solution](https://aws.amazon.com/premiumsupport/knowledge-center/cloudfront-https-requests-s3/) to this problem.
 
-It seems like a big solution to a small problem (i.e.: I didn't _need_ a CDN), but I never used CloudFront before, it seemed simple, cheap, and wanted to try it.
+It seems like a big solution to a small problem (i.e.: I didn't _need_ a CDN), but it also seemed simple to implement, cheap, and valid.
 
 So I setup a CloudFront distribution with my Let's Encrypt certificates, and created DNS entries to point to the distribution. Since my certificate includes the wildcard domain `*.samsanders.dev`, I created a CNAME record for `www.` and an A record for the apex domain. Route53 allows you to create A records for apex domains that point to CloudFront distributions (instead of IP addresses), which is a really cool feature.
 
@@ -91,13 +91,13 @@ The integration was fine: I could push to GitHub to trigger a deployment. But th
 
 When Hugo builds your site, it creates (by default), a folder called `public` in which your publishable site lives. But when AWS CodePipeline has a Source, and Deploy stage, everything in the repository gets copied to the bucket. I just wanted the `public` folder copied.
 
-Luckily, Amazon has an [AWS CodeBuild](https://aws.amazon.com/codebuild/) for building code. So I made a build project that ran at first just by using some commands I typed directly into the build project. I wired the build project into the CodePipeline by adding a Build stage.
+Luckily, Amazon has [AWS CodeBuild](https://aws.amazon.com/codebuild/) for building code. So I made a build project that ran some commands I typed directly into the build project. I wired the build project into the CodePipeline by adding a Build stage.
 
 Again, the integration worked fine, but the build didn't do what I wanted. I researched the [Buildspec](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html) concept within AWS, and dediced to make a [buildspec.yml](https://github.com/southp4w/samsanders.dev/blob/master/buildspec.yml) file that would live in the root directory of my repository, and instruct CodeBuild.
 
-I liked this solution because I wanted my build in source control, and since I was still comitting the `public` directory to GitHub, the `buildspec.yml` was very simple: it made sure to _only_ copy the `public` folder.
+I liked this solution because I wanted my build in source control, and since I was still comitting the `public` directory to GitHub, the `buildspec.yml` was very simple: it made sure to copy only the `public` folder.
 
-I tried migrating the Hugo build to CodeBuild, but I'm using the [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) approach to Hugo themes, and CodeBuild doesn't have great support for that use case yet. The solution is to do the `git clone` yourself via the `buildspec.yml` so that you can also clone the submodule. Yuck. But it's on my `TODO` list.
+I tried migrating the Hugo build to CodeBuild, but I'm using the [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) approach to Hugo themes, and CodeBuild doesn't have great support for that use case yet. The solution is to do the `git clone` yourself via the `buildspec.yml` so that you can also clone the submodule. Yuck. But it's on my TODO list.
 
 ### Blog
 
@@ -107,7 +107,7 @@ I searched for Hugo themes that did have blog capabilities, hoping I could insta
 
 I didn't find any blog themes I loved, so I decided to learn more Hugo so I could make my own blog.
 
-I read the Hugo docs, and created a `blog` folder, with an `_index.md` file. I created default layouts for `list` types, and `single` types for the blog index, and the individual blog post pages, respectively. I used [Heather Hugo](https://themes.gohugo.io/heather-hugo/) as my primary design inspiration.
+I read the Hugo docs, and created a `blog` folder with an `_index.md` file inside it. I created default layouts for `list` types, and `single` types for the blog index, and the individual blog post pages, respectively. I used [Heather Hugo](https://themes.gohugo.io/heather-hugo/) as my primary design inspiration.
 
 I added some navigation to get to the blog from the landing page, and back.
 

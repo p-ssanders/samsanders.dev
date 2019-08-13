@@ -1,6 +1,6 @@
 #   samsanders.dev
 
-Personal website & blog. Built with Hugo. Hosted on AWS.
+Personal website & blog.
 
 ##  Tools
 *   Hugo

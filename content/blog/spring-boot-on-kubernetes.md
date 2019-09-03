@@ -1,12 +1,12 @@
 ---
 title: "Spring Boot on Kubernetes"
 date: 2019-09-03T14:24:06-06:00
-draft: true
+draft: false
 ---
 
 I deployed PKS using a [simple pipeline](https://github.com/p-ssanders/simple-pipelines/tree/master/sandbox/install-pks), and I even created a cluster, but then I kind of didn't know what to do.
 
-> I guess I should deploy an app?
+I guess I should deploy an app?
 
 I had a simple Spring Boot-based web app called [slack-talkers](https://github.com/p-ssanders/slack-talkers) that worked fine, and didn't have any external dependencies, so it seemed like a good candidate.
 
@@ -65,21 +65,21 @@ Browsing to the load balancer URL then presented my app. Cool! And one DNS `A` r
 
 ##  Deploy to Kubernetes (via Manifest)
 
+I knew that in Kubernetes world you're supposed to tell Kubernetes how to run your app in a repeatable way through a [configuration file](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/).
 
+I didn't know how to make one of these, but I figured I could probably get one out of Kubernetes since my app was already running.
 
-create a k8s manifest by exporting
-`kubectl get deployment slack-talkers -o yaml --export > k8s-manifest.yml`
-`kubectl get service slack-talkers -o yaml --export > k8s-manifest-svc.yml`
-(concatenate)
+My app consisted of two Kubernetes concepts: a deployment, and a service. So I exported both:
 
-validate it 
-`kubectl delete deployment slack-talkers` etc
-`kubectl apply -f k8s-manifest.yml`
+```bash
+kubectl get deployment slack-talkers -o yaml --export > k8s-manifest.yml
+kubectl get service slack-talkers -o yaml --export > k8s-manifest-svc.yml
+```
 
-create some DNS records
+I then concatenated the two files together to describe to Kubernetes that I wanted both a deployment, and a service.
 
-want to use a 'secret' to avoid envs on command line or anywhere else
-`kubectl create secret generic slack-api-token --from-literal=SLACK_API_TOKEN=<YOUR SLACK API TOKEN>`
+I also had to deal with the environment variable, so at first I hard-coded it, but that wouldn't suffice in reality, so I found that Kubernetes has [built-in support for secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). I then had to update my configuration file:
+
 ```yaml
 env:
 - name: SLACK_API_TOKEN
@@ -89,33 +89,75 @@ env:
         key: SLACK_API_TOKEN
 ```
 
-also for the dockerhub login to access a private docker repo
-`kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>`
+Then I validated that my configuration file worked to create my deployment and service:
+
+```bash
+kubectl create secret generic slack-api-token --from-literal=SLACK_API_TOKEN=...
+kubectl delete service slack-talkers
+kubectl delete deployment slack-talkers
+kubectl apply -f k8s-manifest.yml
+```
+
+##  Private Docker Repositories
+
+What about making my Docker Hub repository private? Secrets come in handy for this as well. I followed the [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) guide to create the secret, and update my configuration:
+
+```bash
+kubectl create secret docker-registry regcred --docker-server=... --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
+```
+
 ```yaml
 imagePullSecrets:
 - name: regcred
 ```
 
-cool.
-
 ##  CI/CD
-break down the pipeline.yml:
+
+So I had an app that ran on my Kubernetes cluster, but what about Continuous Integration and what about Continuous Delivery?
+
+I created a `pipeline.yml` [file](https://github.com/p-ssanders/slack-talkers/blob/master/ci/pipeline.yml) for [Concourse](https://concourse-ci.org/) with three jobs:
+
+1. Test
+1. Build
+1. Deploy
+
+And it looks like this:
+
+![pipeline](/images/k8s-pipeline-2.png)
 
 ### Test
-the first job just runs the tests: `./mvnw test`
 
-if they pass it increments the `Dockertag` semver:
+The first job, `test`, runs the tests:
+```bash
+./mvnw test
+```
+
+If the tests pass, the job increments the patch version in a file named `Dockertag` using the [semver resource](https://github.com/concourse/semver-resource):
 ```yaml
 - put: docker-tag
 params:
     bump: patch
 ```
 
-### Build
-the `Dockertag` semver increment triggers the build job which builds the source, packages the jar, and unzips the jar: `./mvnw -DskipTests package`
-a caveat is that we have to use the `docker-tag` resource as an input because the commit it made is not yet visible to other jobs in a given run. that's why we use `cat docker-tag/number > workspace/Dockertag`
+This is to ensure that Kubernetes will deploy the newly-built artifact. If we just use the default tag `latest`, Kubernetes [won't know anything changed](https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag), and won't update the deployment.
 
-notice we didn't build the docker image. `put`ing to the `docker-image` resource triggers the build using the build directory, and the updated `Dockertag` file to specify the tag version, and finally uploads it to Dockerhub
+### Build
+
+The `Dockertag` semver increment triggers the next job, `build`, which builds the source, packages the jar, and unzips the jar:
+
+```bash
+./mvnw -DskipTests package
+```
+
+A caveat is that we have to use the `docker-tag` resource as an input because the commit it made in the prior job is not yet visible to other jobs in a given run. That's why we use command:
+
+```bash
+cat docker-tag/number > workspace/Dockertag
+```
+
+Notice that none of this built the docker image.
+
+The Concourse [docker-image-resource](https://github.com/concourse/docker-image-resource) will build the Docker image for us when we `put` to it. The resource builds the image using the specified build directory (and assumes a `Dockerfile` is present). The `Dockertag` file is used to specify the tag version, and finally the resource uploads the resulting image to Dockerhub.
 
 ```yaml
 - name: docker-image
@@ -134,15 +176,18 @@ params:
 ```
 
 ### Deploy
-Once the image is uploaded to Dockerhub and tagged, it can be used to deploy.
 
-The `deploy` job first downloads the `pks` and `kubectl` CLIs and makes them executable.
+Once the image is uploaded to Dockerhub and tagged, it can be deployed.
 
-Then it logs into the PKS-created cluster.
+The `deploy` job first downloads the `pks` and `kubectl` CLIs, and makes them executable.
 
-Then the `k8s-manifest.yml` file is updated _in place_ with the current/latest tag, and used to update the deployment with `kubectl apply`
+Then it uses the CLIs to log into the PKS-created cluster.
 
-This triggers a rolling update, and can be observed by running `kubectl get pods`. Notice that the pods get re-created:
+Then the `k8s-manifest.yml` file is updated _in place_ with the current/latest tag, and used to update the deployment with `kubectl apply`. This interpolation was done to prevent having to keep the Kubernetes configuration file in-sync with the `Dockertag` file.
+
+`kubectl apply` with the updated configuration file triggers a rolling update whichg can be observed by running `kubectl get pods`.
+
+Notice that the pods get re-created:
 
 ```bash
 $ kubectl get pods # before deployment

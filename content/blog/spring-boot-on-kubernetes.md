@@ -12,7 +12,7 @@ I guess I should deploy an app.
 
 I had a simple Spring Boot-based web app called [slack-talkers](https://github.com/p-ssanders/slack-talkers) that worked fine, and didn't have any external dependencies, so it seemed like a good candidate.
 
-I could run the app locally, or in the cloud using a simple command:
+The app could run locally, or in a cloud using a simple command:
 ```
 SLACK_API_TOKEN=<YOUR SLACK API TOKEN> ./mvnw spring-boot:run
 ```

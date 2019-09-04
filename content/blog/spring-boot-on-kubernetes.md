@@ -124,7 +124,7 @@ I created a `pipeline.yml` [file](https://github.com/p-ssanders/slack-talkers/bl
 
 And it looks like this:
 
-![pipeline](/images/k8s-pipeline-2.png)
+![pipeline](/images/k8s-pipeline.png)
 
 ### Test
 

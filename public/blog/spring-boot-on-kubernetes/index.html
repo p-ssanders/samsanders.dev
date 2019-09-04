@@ -63,8 +63,6 @@ if (!doNotTrack) {
 
 <p>I had a simple Spring Boot-based web app called <a href="https://github.com/p-ssanders/slack-talkers">slack-talkers</a> that worked fine, and didn&rsquo;t have any external dependencies, so it seemed like a good candidate.</p>
 
-<p>How hard could it be?</p>
-
 <p>I could run the app locally, or in the cloud using a simple command:</p>
 
 <pre><code>SLACK_API_TOKEN=&lt;YOUR SLACK API TOKEN&gt; ./mvnw spring-boot:run
@@ -84,7 +82,7 @@ if (!doNotTrack) {
 
 <p>I read the instructions on the <a href="https://spring.io/guides/gs/spring-boot-docker/">Spring Boot with Docker</a> guide, and ended up copy/pasting the suggested <code>Dockerfile</code> towards the end of the document. I placed the file into the root directory of <code>slack-talkers</code>.</p>
 
-<p>I then followed the guide, and updated the <code>pom.xml</code> to build a Docker image using Maven:</p>
+<p>I also updated the <code>pom.xml</code> to build a Docker image using Maven:</p>
 
 <pre><code class="language-bash">./mvnw install dockerfile:build
 </code></pre>
@@ -99,27 +97,27 @@ docker push ssanders0/slack-talkers
 
 <h2 id="deploy-to-kubernetes-manually">Deploy to Kubernetes (Manually)</h2>
 
-<p>I searched for things like &ldquo;deploy docker image to kubernetes&rdquo; to find that I could deploy a Docker image directly to my Kubernetes cluster using the following command:</p>
+<p>I searched for phrases like &ldquo;deploy docker image to kubernetes&rdquo; to find that I could deploy a Docker image directly to my Kubernetes cluster using the following command:</p>
 
 <pre><code class="language-bash">kubectl run slack-talkers --image ssanders0/slack-talkers --port=8080 --env=&quot;SLACK_API_TOKEN=${SLACK_API_TOKEN}&quot;
 </code></pre>
 
-<p>Note that the one environment variable <code>slack-talkers</code> needs is provided directly in the <code>run</code> command.</p>
+<p>Note that the environment variable <code>SLACK_API_TOKEN</code> is provided directly in the <code>run</code> command.</p>
 
 <p>So that was cool, but in Kubernetes world you need a <a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service</a> to expose an application running on a set of Pods as a network service i.e.: allow traffic to my web application.</p>
 
-<p>Running the following command creates a service, and even a load balancer in my IaaS that routes traffic to my app:</p>
+<p>Running the following command creates a service, and even a load balancer in the IaaS that routes traffic to my app:</p>
 
 <pre><code class="language-bash">kubectl expose deployment slack-talkers --port=80 --target-port=8080 --type=&quot;LoadBalancer&quot;
 </code></pre>
 
-<p>Browsing to the load balancer URL then presented my app. Cool! And one DNS <code>A</code> record later, and I had a vanity URL. Very cool.</p>
+<p>Browsing to the load balancer URL then presented my app. Adding a DNS <code>A</code> record got me a vanity URL. Cool.</p>
 
 <h2 id="deploy-to-kubernetes-via-manifest">Deploy to Kubernetes (via Manifest)</h2>
 
 <p>I knew that in Kubernetes world you&rsquo;re supposed to tell Kubernetes how to run your app in a repeatable way through a <a href="https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/">configuration file</a>.</p>
 
-<p>I didn&rsquo;t know how to make one of these, but I figured I could probably get one out of Kubernetes since my app was already running.</p>
+<p>I didn&rsquo;t know how to make one of those, but I figured I could probably get one out of Kubernetes since my app was already running.</p>
 
 <p>My app consisted of two Kubernetes concepts: a deployment, and a service. So I exported both:</p>
 
@@ -129,7 +127,7 @@ kubectl get service slack-talkers -o yaml --export &gt; k8s-manifest-svc.yml
 
 <p>I then concatenated the two files together to describe to Kubernetes that I wanted both a deployment, and a service.</p>
 
-<p>I also had to deal with the environment variable, so at first I hard-coded it, but that wouldn&rsquo;t suffice in reality, so I found that Kubernetes has <a href="https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables">built-in support for secrets</a>. I then had to update my configuration file:</p>
+<p>I also had to deal with the environment variable, so at first I hard-coded it, but that wouldn&rsquo;t suffice in reality, so I found that Kubernetes has <a href="https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables">built-in support for secrets</a>. So I created one, and updated my configuration file to consume it:</p>
 
 <pre><code class="language-yaml">env:
 - name: SLACK_API_TOKEN

@@ -10,8 +10,6 @@ I guess I should deploy an app?
 
 I had a simple Spring Boot-based web app called [slack-talkers](https://github.com/p-ssanders/slack-talkers) that worked fine, and didn't have any external dependencies, so it seemed like a good candidate.
 
-How hard could it be?
-
 I could run the app locally, or in the cloud using a simple command:
 ```
 SLACK_API_TOKEN=<YOUR SLACK API TOKEN> ./mvnw spring-boot:run
@@ -29,7 +27,7 @@ So the first thing I needed to do was [Dockerize](https://docs.docker.com/get-st
 
 I read the instructions on the [Spring Boot with Docker](https://spring.io/guides/gs/spring-boot-docker/) guide, and ended up copy/pasting the suggested `Dockerfile` towards the end of the document. I placed the file into the root directory of `slack-talkers`.
 
-I then followed the guide, and updated the `pom.xml` to build a Docker image using Maven:
+I also updated the `pom.xml` to build a Docker image using Maven:
 
 ```bash
 ./mvnw install dockerfile:build
@@ -46,28 +44,29 @@ I didn't care that it was public at that point primarily because there's nothing
 
 ##  Deploy to Kubernetes (Manually)
 
-I searched for things like "deploy docker image to kubernetes" to find that I could deploy a Docker image directly to my Kubernetes cluster using the following command:
+I searched for phrases like "deploy docker image to kubernetes" to find that I could deploy a Docker image directly to my Kubernetes cluster using the following command:
 
 ```bash
 kubectl run slack-talkers --image ssanders0/slack-talkers --port=8080 --env="SLACK_API_TOKEN=${SLACK_API_TOKEN}"
 ```
 
-Note that the one environment variable `slack-talkers` needs is provided directly in the `run` command.
+Note that the environment variable `SLACK_API_TOKEN` is provided directly in the `run` command.
 
 So that was cool, but in Kubernetes world you need a [Service](https://kubernetes.io/docs/concepts/services-networking/service/) to expose an application running on a set of Pods as a network service i.e.: allow traffic to my web application.
 
-Running the following command creates a service, and even a load balancer in my IaaS that routes traffic to my app:
+Running the following command creates a service, and even a load balancer in the IaaS that routes traffic to my app:
+
 ```bash
 kubectl expose deployment slack-talkers --port=80 --target-port=8080 --type="LoadBalancer"
 ```
 
-Browsing to the load balancer URL then presented my app. Cool! And one DNS `A` record later, and I had a vanity URL. Very cool.
+Browsing to the load balancer URL then presented my app. Adding a DNS `A` record got me a vanity URL. Cool.
 
 ##  Deploy to Kubernetes (via Manifest)
 
 I knew that in Kubernetes world you're supposed to tell Kubernetes how to run your app in a repeatable way through a [configuration file](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/).
 
-I didn't know how to make one of these, but I figured I could probably get one out of Kubernetes since my app was already running.
+I didn't know how to make one of those, but I figured I could probably get one out of Kubernetes since my app was already running.
 
 My app consisted of two Kubernetes concepts: a deployment, and a service. So I exported both:
 
@@ -78,7 +77,7 @@ kubectl get service slack-talkers -o yaml --export > k8s-manifest-svc.yml
 
 I then concatenated the two files together to describe to Kubernetes that I wanted both a deployment, and a service.
 
-I also had to deal with the environment variable, so at first I hard-coded it, but that wouldn't suffice in reality, so I found that Kubernetes has [built-in support for secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). I then had to update my configuration file:
+I also had to deal with the environment variable, so at first I hard-coded it, but that wouldn't suffice in reality, so I found that Kubernetes has [built-in support for secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). So I created one, and updated my configuration file to consume it:
 
 ```yaml
 env:

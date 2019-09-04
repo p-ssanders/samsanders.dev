@@ -34,8 +34,6 @@ Recently, I took this table of what are essentially responsibilities and capabil
 |                                                                                 | Metrics Storage                 |                                       |                                   |                        |
 |                                                                                 |                                 |                                       |                                   |                        |
 
-**Wow.**
-
 But there are companies, like Pivotal in this example, that have built a product that can bear those responsibilities, and provide those capabilities. Today. Now.
 
 This is just one example, too. I can probably do the same analysis for any market in which there are mature products already offered by vendors.

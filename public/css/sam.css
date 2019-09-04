@@ -1,22 +1,3 @@
-.nav {
-  text-align: right;
-}
-
-.blog {
-  margin-top: 5vh;
-  flex-direction: column;
-}
-
-@media (min-width: 600px) {
-  .blog {
-    padding: 0rem 10rem;
-    max-width: 60%;
-  }
-  .blog-title {
-    padding: 0rem 10rem;
-  }
-}
-
 h1 {
   font-size: 3rem;
 }
@@ -52,6 +33,30 @@ img {
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
+}
+
+footer {
+  margin-top: 0rem;
+  margin-left: 10rem;
+}
+
+.nav {
+  text-align: right;
+}
+
+.blog {
+  margin-top: 5vh;
+  flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  .blog {
+    padding: 0rem 10rem;
+    max-width: 60%;
+  }
+  .blog-title {
+    padding: 0rem 10rem;
+  }
 }
 
 .portrait {

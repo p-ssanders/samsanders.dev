@@ -186,11 +186,11 @@ params:
     bump: patch
 </code></pre>
 
-<p>This is to ensure that Kubernetes will deploy the newly-built artifact. If we just use the default tag <code>latest</code>, Kubernetes <a href="https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag">won&rsquo;t know anything changed</a>, and won&rsquo;t update the deployment.</p>
+<p>This is to ensure that Kubernetes will deploy the built artifact. If we just use the default tag <code>latest</code>, Kubernetes <a href="https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag">won&rsquo;t know anything changed</a>, and won&rsquo;t update the deployment.</p>
 
 <h3 id="build">Build</h3>
 
-<p>The <code>Dockertag</code> semver increment triggers the next job, <code>build</code>, which builds the source, packages the jar, and unzips the jar:</p>
+<p>The <code>Dockertag</code> semver increment triggers the next job, <code>build</code>, which builds the source, packages the jar, and unzips the jar (for later packaging into the Docker image):</p>
 
 <pre><code class="language-bash">./mvnw -DskipTests package
 </code></pre>
@@ -202,7 +202,7 @@ params:
 
 <p>Notice that none of this built the docker image.</p>
 
-<p>The Concourse <a href="https://github.com/concourse/docker-image-resource">docker-image-resource</a> will build the Docker image for us when we <code>put</code> to it. The resource builds the image using the specified build directory (and assumes a <code>Dockerfile</code> is present). The <code>Dockertag</code> file is used to specify the tag version, and finally the resource uploads the resulting image to Dockerhub.</p>
+<p>The Concourse <a href="https://github.com/concourse/docker-image-resource">docker-image-resource</a> will build the Docker image on <code>put</code> using the specified build directory, defaulting to assume a <code>Dockerfile</code> is present. Finally the resource uploads the image to Dockerhub using the <code>Dockertag</code> file is used to specify the tag version.</p>
 
 <pre><code class="language-yaml">- name: docker-image
   type: docker-image
@@ -222,15 +222,11 @@ params:
 
 <p>Once the image is uploaded to Dockerhub and tagged, it can be deployed.</p>
 
-<p>The <code>deploy</code> job first downloads the <code>pks</code> and <code>kubectl</code> CLIs, and makes them executable.</p>
+<p>The <code>deploy</code> job first downloads the <code>pks</code> and <code>kubectl</code> CLIs, makes them executable, and uses the CLIs to log into the PKS API.</p>
 
-<p>Then it uses the CLIs to log into the PKS-created cluster.</p>
+<p>Then the <code>k8s-manifest.yml</code> file is updated <em>in place</em> with the current/latest tag, and used to update the deployment with <code>kubectl apply</code>. This interpolation was done as a workaround to the issue of jobs not having access to commits made after the job starts. I might come back to this later.</p>
 
-<p>Then the <code>k8s-manifest.yml</code> file is updated <em>in place</em> with the current/latest tag, and used to update the deployment with <code>kubectl apply</code>. This interpolation was done to prevent having to keep the Kubernetes configuration file in-sync with the <code>Dockertag</code> file.</p>
-
-<p><code>kubectl apply</code> with the updated configuration file triggers a rolling update whichg can be observed by running <code>kubectl get pods</code>.</p>
-
-<p>Notice that the pods get re-created:</p>
+<p><code>kubectl apply</code> with the updated configuration file triggers a rolling update. Notice that the pods get re-created:</p>
 
 <pre><code class="language-bash">$ kubectl get pods # before deployment
 NAME                            READY   STATUS    RESTARTS   AGE
@@ -242,6 +238,10 @@ NAME                            READY   STATUS    RESTARTS   AGE
 slack-talkers-dd85cb7d9-htcxq   1/1     Running   0          35s
 slack-talkers-dd85cb7d9-slmxz   1/1     Running   0          32s
 </code></pre>
+
+<h3 id="summary">Summary</h3>
+
+<p>Migrating a working Spring Boot web application to run on Kubernetes wasn&rsquo;t particularly difficult, but it felt unnecessary. The app already ran fine in a PCF/PAS or Heroku environment, just by pushing the source code to GitHub. To run on Kubernetes I had to introduce infrastructure concerns into the app&rsquo;s source code which reminded me of the old days with Tomcat <code>web.xml</code> configurations. Why use a lower level of abstraction than what is available? I wouldn&rsquo;t for cloud-native applications like <code>slack-talkers</code>, however I could see Kubernetes as an easy way to lift &amp; shift a non-cloud-native app.</p>
 
 
 

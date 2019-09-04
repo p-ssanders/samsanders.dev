@@ -196,6 +196,6 @@ slack-talkers-dd85cb7d9-htcxq   1/1     Running   0          35s
 slack-talkers-dd85cb7d9-slmxz   1/1     Running   0          32s
 ```
 
-### Summary
+##  Summary
 
-Migrating a working Spring Boot web application to run on Kubernetes wasn't particularly difficult, but it felt unnecessary. The app already ran fine in a PCF/PAS or Heroku environment, just by pushing the source code to GitHub. To run on Kubernetes I had to introduce infrastructure concerns into the app's source code which reminded me of the old days with Tomcat `web.xml` configurations. Why use a lower level of abstraction than what is available? I wouldn't for cloud-native applications like `slack-talkers`, however I could see Kubernetes as an easy way to lift & shift a non-cloud-native app.
+Migrating a working Spring Boot web application to run on Kubernetes wasn't particularly difficult, but it felt unnecessary. The app already ran fine in a PCF/PAS or Heroku environment just by pushing the source code to GitHub. To run on Kubernetes I had to introduce infrastructure concerns into the app's source code which reminded me of the old days with Tomcat `web.xml` configurations. Why use a lower level of abstraction than what is available? I wouldn't for cloud-native applications like `slack-talkers`, however I could see Kubernetes as a potentially easy way to lift & shift a non-cloud-native app.

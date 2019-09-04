@@ -44,7 +44,7 @@ if (!doNotTrack) {
     <a href="https://docs.google.com/document/d/e/2PACX-1vQ0jm0M2F0yEJbAbVMzTsf2ju_7yqGOxNqUFwevS-urYUjK3KaiRfPIiKkkVGfCgAfjlVAtumg9TJCl/pub">resume</a>
 </div>
 
-<h1>Spring Boot on Kubernetes</h1>
+<h1 class="blog-title">Spring Boot on Kubernetes</h1>
 
 <main class="blog">
 <article class="post">
@@ -239,9 +239,9 @@ slack-talkers-dd85cb7d9-htcxq   1/1     Running   0          35s
 slack-talkers-dd85cb7d9-slmxz   1/1     Running   0          32s
 </code></pre>
 
-<h3 id="summary">Summary</h3>
+<h2 id="summary">Summary</h2>
 
-<p>Migrating a working Spring Boot web application to run on Kubernetes wasn&rsquo;t particularly difficult, but it felt unnecessary. The app already ran fine in a PCF/PAS or Heroku environment, just by pushing the source code to GitHub. To run on Kubernetes I had to introduce infrastructure concerns into the app&rsquo;s source code which reminded me of the old days with Tomcat <code>web.xml</code> configurations. Why use a lower level of abstraction than what is available? I wouldn&rsquo;t for cloud-native applications like <code>slack-talkers</code>, however I could see Kubernetes as an easy way to lift &amp; shift a non-cloud-native app.</p>
+<p>Migrating a working Spring Boot web application to run on Kubernetes wasn&rsquo;t particularly difficult, but it felt unnecessary. The app already ran fine in a PCF/PAS or Heroku environment just by pushing the source code to GitHub. To run on Kubernetes I had to introduce infrastructure concerns into the app&rsquo;s source code which reminded me of the old days with Tomcat <code>web.xml</code> configurations. Why use a lower level of abstraction than what is available? I wouldn&rsquo;t for cloud-native applications like <code>slack-talkers</code>, however I could see Kubernetes as a potentially easy way to lift &amp; shift a non-cloud-native app.</p>
 
 
 

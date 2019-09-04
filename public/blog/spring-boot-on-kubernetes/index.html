@@ -55,11 +55,9 @@ if (!doNotTrack) {
     </p>
   </h2>
 
-  
+  <p>I deployed PKS using a <a href="https://github.com/p-ssanders/simple-pipelines/tree/master/sandbox/install-pks">simple pipeline</a>, and I even created a cluster, but then I kind of didn&rsquo;t know what to do.</p>
 
-<p>I deployed PKS using a <a href="https://github.com/p-ssanders/simple-pipelines/tree/master/sandbox/install-pks">simple pipeline</a>, and I even created a cluster, but then I kind of didn&rsquo;t know what to do.</p>
-
-<p>I guess I should deploy an app?</p>
+<p>I guess I should deploy an app.</p>
 
 <p>I had a simple Spring Boot-based web app called <a href="https://github.com/p-ssanders/slack-talkers">slack-talkers</a> that worked fine, and didn&rsquo;t have any external dependencies, so it seemed like a good candidate.</p>
 
@@ -76,7 +74,7 @@ if (!doNotTrack) {
 <p>Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications.</p>
 </blockquote>
 
-<p>I figured if I could create a Docker image, I could run it on my PKS cluster.</p>
+<p>I figured if I could create a Docker image, then I could run it on the PKS cluster.</p>
 
 <p>So the first thing I needed to do was <a href="https://docs.docker.com/get-started/">Dockerize</a> <code>slack-talkers</code>.</p>
 
@@ -87,47 +85,47 @@ if (!doNotTrack) {
 <pre><code class="language-bash">./mvnw install dockerfile:build
 </code></pre>
 
-<p>I created a <em>public</em> repository on <a href="https://hub.docker.com/">DockerHub</a>, and pushed my image to it:</p>
+<p>I created a public repository on <a href="https://hub.docker.com/">DockerHub</a>, and pushed the image to it:</p>
 
 <pre><code class="language-bash">docker login
 docker push ssanders0/slack-talkers
 </code></pre>
 
-<p>I didn&rsquo;t care that it was public at that point primarily because there&rsquo;s nothing special about the app, and I wanted to keep things simple by avoiding authentication.</p>
+<p>I felt OK that the repository was public at that point primarily because <code>slack-talkers</code> is stateless, needs an API key to run, and I wanted to keep things simple by avoiding authentication.</p>
 
 <h2 id="deploy-to-kubernetes-manually">Deploy to Kubernetes (Manually)</h2>
 
-<p>I searched for phrases like &ldquo;deploy docker image to kubernetes&rdquo; to find that I could deploy a Docker image directly to my Kubernetes cluster using the following command:</p>
+<p>I searched for phrases like &ldquo;deploy docker image to kubernetes&rdquo; to find that I could deploy a Docker image directly to the Kubernetes cluster using the following command:</p>
 
 <pre><code class="language-bash">kubectl run slack-talkers --image ssanders0/slack-talkers --port=8080 --env=&quot;SLACK_API_TOKEN=${SLACK_API_TOKEN}&quot;
 </code></pre>
 
 <p>Note that the environment variable <code>SLACK_API_TOKEN</code> is provided directly in the <code>run</code> command.</p>
 
-<p>So that was cool, but in Kubernetes world you need a <a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service</a> to expose an application running on a set of Pods as a network service i.e.: allow traffic to my web application.</p>
+<p>So that was cool, but in Kubernetes world you need a <a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service</a> to expose an application running on a set of Pods as a network service i.e.: allow traffic to the web application.</p>
 
-<p>Running the following command creates a service, and even a load balancer in the IaaS that routes traffic to my app:</p>
+<p>Running the following command creates a service, and even a load balancer in the IaaS that routes traffic to the app:</p>
 
 <pre><code class="language-bash">kubectl expose deployment slack-talkers --port=80 --target-port=8080 --type=&quot;LoadBalancer&quot;
 </code></pre>
 
-<p>Browsing to the load balancer URL then presented my app. Adding a DNS <code>A</code> record got me a vanity URL. Cool.</p>
+<p>Browsing to the load balancer URL then presented the app. Adding a DNS <code>A</code> record got me a vanity URL. Cool.</p>
 
 <h2 id="deploy-to-kubernetes-via-manifest">Deploy to Kubernetes (via Manifest)</h2>
 
 <p>I knew that in Kubernetes world you&rsquo;re supposed to tell Kubernetes how to run your app in a repeatable way through a <a href="https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/">configuration file</a>.</p>
 
-<p>I didn&rsquo;t know how to make one of those, but I figured I could probably get one out of Kubernetes since my app was already running.</p>
+<p>I didn&rsquo;t know how to make one of those, but I figured I could probably get one out of Kubernetes since the app was already running.</p>
 
-<p>My app consisted of two Kubernetes concepts: a deployment, and a service. So I exported both:</p>
+<p>The app consisted of two Kubernetes concepts: a deployment, and a service. So I exported both:</p>
 
-<pre><code class="language-bash">kubectl get deployment slack-talkers -o yaml --export &gt; k8s-manifest.yml
-kubectl get service slack-talkers -o yaml --export &gt; k8s-manifest-svc.yml
+<pre><code class="language-bash">kubectl get deployment slack-talkers -o yaml --export &gt; k8s-manifest-deployment.yml
+kubectl get service slack-talkers -o yaml --export &gt; k8s-manifest-service.yml
 </code></pre>
 
-<p>I then concatenated the two files together to describe to Kubernetes that I wanted both a deployment, and a service.</p>
+<p>I then concatenated the two files together to describe to Kubernetes that I wanted both a deployment, and a service in a single file.</p>
 
-<p>I also had to deal with the environment variable, so at first I hard-coded it, but that wouldn&rsquo;t suffice in reality, so I found that Kubernetes has <a href="https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables">built-in support for secrets</a>. So I created one, and updated my configuration file to consume it:</p>
+<p>I also had to address the environment variable, so at first I hard-coded it, but that wouldn&rsquo;t suffice in reality, so I found that Kubernetes has <a href="https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables">built-in support for secrets</a>. So I created one, and updated the configuration file to consume it:</p>
 
 <pre><code class="language-yaml">env:
 - name: SLACK_API_TOKEN
@@ -137,7 +135,7 @@ kubectl get service slack-talkers -o yaml --export &gt; k8s-manifest-svc.yml
         key: SLACK_API_TOKEN
 </code></pre>
 
-<p>Then I validated that my configuration file worked to create my deployment and service:</p>
+<p>Then I validated that the configuration file worked to create the deployment and service:</p>
 
 <pre><code class="language-bash">kubectl create secret generic slack-api-token --from-literal=SLACK_API_TOKEN=...
 kubectl delete service slack-talkers
@@ -147,7 +145,7 @@ kubectl apply -f k8s-manifest.yml
 
 <h2 id="private-docker-repositories">Private Docker Repositories</h2>
 
-<p>What about making my Docker Hub repository private? Secrets come in handy for this as well. I followed the <a href="https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/">Pull an Image from a Private Registry</a> guide to create the secret, and update my configuration:</p>
+<p>What about making the Docker Hub repository private? Secrets come in handy for this as well. I followed the <a href="https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/">Pull an Image from a Private Registry</a> guide to create the secret, and update the configuration:</p>
 
 <pre><code class="language-bash">kubectl create secret docker-registry regcred --docker-server=... --docker-username=&lt;your-name&gt; --docker-password=&lt;your-pword&gt; --docker-email=&lt;your-email&gt;
 </code></pre>
@@ -158,7 +156,7 @@ kubectl apply -f k8s-manifest.yml
 
 <h2 id="ci-cd">CI/CD</h2>
 
-<p>So I had an app that ran on my Kubernetes cluster, but what about Continuous Integration and what about Continuous Delivery?</p>
+<p>So I had an app that ran on the Kubernetes cluster from a manual deployment, but what about continuous integration and what about continuous delivery?</p>
 
 <p>I created a <code>pipeline.yml</code> <a href="https://github.com/p-ssanders/slack-talkers/blob/master/ci/pipeline.yml">file</a> for <a href="https://concourse-ci.org/">Concourse</a> with three jobs:</p>
 
@@ -186,23 +184,23 @@ params:
     bump: patch
 </code></pre>
 
-<p>This is to ensure that Kubernetes will deploy the built artifact. If we just use the default tag <code>latest</code>, Kubernetes <a href="https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag">won&rsquo;t know anything changed</a>, and won&rsquo;t update the deployment.</p>
+<p>This is to ensure that Kubernetes will deploy the built artifact. Using the default tag <code>latest</code> doesn&rsquo;t <a href="https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag">let Kubernetes know anything changed</a>, so it won&rsquo;t update the deployment.</p>
 
 <h3 id="build">Build</h3>
 
-<p>The <code>Dockertag</code> semver increment triggers the next job, <code>build</code>, which builds the source, packages the jar, and unzips the jar (for later packaging into the Docker image):</p>
+<p>Incrementing the <code>Dockertag</code> triggers the next job, <code>build</code>, which builds the source, packages the jar, and unzips the jar (for later packaging into the Docker image):</p>
 
 <pre><code class="language-bash">./mvnw -DskipTests package
 </code></pre>
 
-<p>A caveat is that we have to use the <code>docker-tag</code> resource as an input because the commit it made in the prior job is not yet visible to other jobs in a given run. That&rsquo;s why we use command:</p>
+<p>A caveat is that I had to use the <code>docker-tag</code> resource as an input to the <code>build</code> job because the commit it made by the prior job is not visible to other jobs in a given pipeline run. That&rsquo;s why I use the command:</p>
 
 <pre><code class="language-bash">cat docker-tag/number &gt; workspace/Dockertag
 </code></pre>
 
-<p>Notice that none of this built the docker image.</p>
+<p>Notice however that none of this built the docker image.</p>
 
-<p>The Concourse <a href="https://github.com/concourse/docker-image-resource">docker-image-resource</a> will build the Docker image on <code>put</code> using the specified build directory, defaulting to assume a <code>Dockerfile</code> is present. Finally the resource uploads the image to Dockerhub using the <code>Dockertag</code> file is used to specify the tag version.</p>
+<p>The Concourse <a href="https://github.com/concourse/docker-image-resource">docker-image-resource</a> will build the Docker image on <code>put</code> using the specified build directory, defaulting to assume a <code>Dockerfile</code> is present in that directory. Finally the resource uploads the image to Dockerhub using the <code>Dockertag</code> file is used to specify the tag version.</p>
 
 <pre><code class="language-yaml">- name: docker-image
   type: docker-image
@@ -220,11 +218,11 @@ params:
 
 <h3 id="deploy">Deploy</h3>
 
-<p>Once the image is uploaded to Dockerhub and tagged, it can be deployed.</p>
+<p>Once the tagged image is uploaded to Dockerhub, it can be deployed to the Kubernetes cluster.</p>
 
 <p>The <code>deploy</code> job first downloads the <code>pks</code> and <code>kubectl</code> CLIs, makes them executable, and uses the CLIs to log into the PKS API.</p>
 
-<p>Then the <code>k8s-manifest.yml</code> file is updated <em>in place</em> with the current/latest tag, and used to update the deployment with <code>kubectl apply</code>. This interpolation was done as a workaround to the issue of jobs not having access to commits made after the job starts. I might come back to this later.</p>
+<p>Then the <code>k8s-manifest.yml</code> file is updated <em>in place</em> with the current tag, and used to update the deployment with <code>kubectl apply</code>. This interpolation was done as a workaround to the issue of jobs not having access to commits made after the pipeline run starts. I might come back to this later to find a better solution.</p>
 
 <p><code>kubectl apply</code> with the updated configuration file triggers a rolling update. Notice that the pods get re-created:</p>
 
@@ -242,7 +240,6 @@ slack-talkers-dd85cb7d9-slmxz   1/1     Running   0          32s
 <h2 id="summary">Summary</h2>
 
 <p>Migrating a working Spring Boot web application to run on Kubernetes wasn&rsquo;t particularly difficult, but it felt unnecessary. The app already ran fine in a PCF/PAS or Heroku environment just by pushing the source code to GitHub. To run on Kubernetes I had to introduce infrastructure concerns into the app&rsquo;s source code which reminded me of the old days with Tomcat <code>web.xml</code> configurations. Why use a lower level of abstraction than what is available? I wouldn&rsquo;t for cloud-native applications like <code>slack-talkers</code>, however I could see Kubernetes as a potentially easy way to lift &amp; shift a non-cloud-native app.</p>
-
 
 
   <p class="back">

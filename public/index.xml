@@ -17,10 +17,9 @@
       <pubDate>Tue, 03 Sep 2019 14:24:06 -0600</pubDate>
       
       <guid>https://samsanders.dev/blog/spring-boot-on-kubernetes/</guid>
-      <description>I deployed PKS using a simple pipeline, and I even created a cluster, but then I kind of didn&amp;rsquo;t know what to do.
-I guess I should deploy an app?
-I had a simple Spring Boot-based web app called slack-talkers that worked fine, and didn&amp;rsquo;t have any external dependencies, so it seemed like a good candidate.
-I could run the app locally, or in the cloud using a simple command:</description>
+      <description>&lt;p&gt;I deployed PKS using a &lt;a href=&#34;https://github.com/p-ssanders/simple-pipelines/tree/master/sandbox/install-pks&#34;&gt;simple pipeline&lt;/a&gt;, and I even created a cluster, but then I kind of didn&amp;rsquo;t know what to do.&lt;/p&gt;
+
+&lt;p&gt;I guess I should deploy an app.&lt;/p&gt;</description>
     </item>
     
     <item>

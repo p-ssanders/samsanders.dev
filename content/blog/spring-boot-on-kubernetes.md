@@ -6,7 +6,9 @@ draft: false
 
 I deployed PKS using a [simple pipeline](https://github.com/p-ssanders/simple-pipelines/tree/master/sandbox/install-pks), and I even created a cluster, but then I kind of didn't know what to do.
 
-I guess I should deploy an app?
+I guess I should deploy an app.
+
+<!--more-->
 
 I had a simple Spring Boot-based web app called [slack-talkers](https://github.com/p-ssanders/slack-talkers) that worked fine, and didn't have any external dependencies, so it seemed like a good candidate.
 
@@ -21,7 +23,7 @@ So what next?
 
 > Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications.
 
-I figured if I could create a Docker image, I could run it on my PKS cluster.
+I figured if I could create a Docker image, then I could run it on the PKS cluster.
 
 So the first thing I needed to do was [Dockerize](https://docs.docker.com/get-started/) `slack-talkers`.
 
@@ -33,18 +35,18 @@ I also updated the `pom.xml` to build a Docker image using Maven:
 ./mvnw install dockerfile:build
 ```
 
-I created a _public_ repository on [DockerHub](https://hub.docker.com/), and pushed my image to it:
+I created a public repository on [DockerHub](https://hub.docker.com/), and pushed the image to it:
 
 ```bash
 docker login
 docker push ssanders0/slack-talkers
 ```
 
-I didn't care that it was public at that point primarily because there's nothing special about the app, and I wanted to keep things simple by avoiding authentication.
+I felt OK that the repository was public at that point primarily because `slack-talkers` is stateless, needs an API key to run, and I wanted to keep things simple by avoiding authentication.
 
 ##  Deploy to Kubernetes (Manually)
 
-I searched for phrases like "deploy docker image to kubernetes" to find that I could deploy a Docker image directly to my Kubernetes cluster using the following command:
+I searched for phrases like "deploy docker image to kubernetes" to find that I could deploy a Docker image directly to the Kubernetes cluster using the following command:
 
 ```bash
 kubectl run slack-talkers --image ssanders0/slack-talkers --port=8080 --env="SLACK_API_TOKEN=${SLACK_API_TOKEN}"
@@ -52,32 +54,32 @@ kubectl run slack-talkers --image ssanders0/slack-talkers --port=8080 --env="SLA
 
 Note that the environment variable `SLACK_API_TOKEN` is provided directly in the `run` command.
 
-So that was cool, but in Kubernetes world you need a [Service](https://kubernetes.io/docs/concepts/services-networking/service/) to expose an application running on a set of Pods as a network service i.e.: allow traffic to my web application.
+So that was cool, but in Kubernetes world you need a [Service](https://kubernetes.io/docs/concepts/services-networking/service/) to expose an application running on a set of Pods as a network service i.e.: allow traffic to the web application.
 
-Running the following command creates a service, and even a load balancer in the IaaS that routes traffic to my app:
+Running the following command creates a service, and even a load balancer in the IaaS that routes traffic to the app:
 
 ```bash
 kubectl expose deployment slack-talkers --port=80 --target-port=8080 --type="LoadBalancer"
 ```
 
-Browsing to the load balancer URL then presented my app. Adding a DNS `A` record got me a vanity URL. Cool.
+Browsing to the load balancer URL then presented the app. Adding a DNS `A` record got me a vanity URL. Cool.
 
 ##  Deploy to Kubernetes (via Manifest)
 
 I knew that in Kubernetes world you're supposed to tell Kubernetes how to run your app in a repeatable way through a [configuration file](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/).
 
-I didn't know how to make one of those, but I figured I could probably get one out of Kubernetes since my app was already running.
+I didn't know how to make one of those, but I figured I could probably get one out of Kubernetes since the app was already running.
 
-My app consisted of two Kubernetes concepts: a deployment, and a service. So I exported both:
+The app consisted of two Kubernetes concepts: a deployment, and a service. So I exported both:
 
 ```bash
-kubectl get deployment slack-talkers -o yaml --export > k8s-manifest.yml
-kubectl get service slack-talkers -o yaml --export > k8s-manifest-svc.yml
+kubectl get deployment slack-talkers -o yaml --export > k8s-manifest-deployment.yml
+kubectl get service slack-talkers -o yaml --export > k8s-manifest-service.yml
 ```
 
-I then concatenated the two files together to describe to Kubernetes that I wanted both a deployment, and a service.
+I then concatenated the two files together to describe to Kubernetes that I wanted both a deployment, and a service in a single file.
 
-I also had to deal with the environment variable, so at first I hard-coded it, but that wouldn't suffice in reality, so I found that Kubernetes has [built-in support for secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). So I created one, and updated my configuration file to consume it:
+I also had to address the environment variable, so at first I hard-coded it, but that wouldn't suffice in reality, so I found that Kubernetes has [built-in support for secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). So I created one, and updated the configuration file to consume it:
 
 ```yaml
 env:
@@ -88,7 +90,7 @@ env:
         key: SLACK_API_TOKEN
 ```
 
-Then I validated that my configuration file worked to create my deployment and service:
+Then I validated that the configuration file worked to create the deployment and service:
 
 ```bash
 kubectl create secret generic slack-api-token --from-literal=SLACK_API_TOKEN=...
@@ -99,7 +101,7 @@ kubectl apply -f k8s-manifest.yml
 
 ##  Private Docker Repositories
 
-What about making my Docker Hub repository private? Secrets come in handy for this as well. I followed the [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) guide to create the secret, and update my configuration:
+What about making the Docker Hub repository private? Secrets come in handy for this as well. I followed the [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) guide to create the secret, and update the configuration:
 
 ```bash
 kubectl create secret docker-registry regcred --docker-server=... --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
@@ -112,7 +114,7 @@ imagePullSecrets:
 
 ##  CI/CD
 
-So I had an app that ran on my Kubernetes cluster, but what about Continuous Integration and what about Continuous Delivery?
+So I had an app that ran on the Kubernetes cluster from a manual deployment, but what about continuous integration and what about continuous delivery?
 
 I created a `pipeline.yml` [file](https://github.com/p-ssanders/slack-talkers/blob/master/ci/pipeline.yml) for [Concourse](https://concourse-ci.org/) with three jobs:
 
@@ -138,25 +140,25 @@ params:
     bump: patch
 ```
 
-This is to ensure that Kubernetes will deploy the built artifact. If we just use the default tag `latest`, Kubernetes [won't know anything changed](https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag), and won't update the deployment.
+This is to ensure that Kubernetes will deploy the built artifact. Using the default tag `latest` doesn't [let Kubernetes know anything changed](https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag), so it won't update the deployment.
 
 ### Build
 
-The `Dockertag` semver increment triggers the next job, `build`, which builds the source, packages the jar, and unzips the jar (for later packaging into the Docker image):
+Incrementing the `Dockertag` triggers the next job, `build`, which builds the source, packages the jar, and unzips the jar (for later packaging into the Docker image):
 
 ```bash
 ./mvnw -DskipTests package
 ```
 
-A caveat is that we have to use the `docker-tag` resource as an input because the commit it made in the prior job is not yet visible to other jobs in a given run. That's why we use command:
+A caveat is that I had to use the `docker-tag` resource as an input to the `build` job because the commit it made by the prior job is not visible to other jobs in a given pipeline run. That's why I use the command:
 
 ```bash
 cat docker-tag/number > workspace/Dockertag
 ```
 
-Notice that none of this built the docker image.
+Notice however that none of this built the docker image.
 
-The Concourse [docker-image-resource](https://github.com/concourse/docker-image-resource) will build the Docker image on `put` using the specified build directory, defaulting to assume a `Dockerfile` is present. Finally the resource uploads the image to Dockerhub using the `Dockertag` file is used to specify the tag version.
+The Concourse [docker-image-resource](https://github.com/concourse/docker-image-resource) will build the Docker image on `put` using the specified build directory, defaulting to assume a `Dockerfile` is present in that directory. Finally the resource uploads the image to Dockerhub using the `Dockertag` file is used to specify the tag version.
 
 ```yaml
 - name: docker-image
@@ -176,11 +178,11 @@ params:
 
 ### Deploy
 
-Once the image is uploaded to Dockerhub and tagged, it can be deployed.
+Once the tagged image is uploaded to Dockerhub, it can be deployed to the Kubernetes cluster.
 
 The `deploy` job first downloads the `pks` and `kubectl` CLIs, makes them executable, and uses the CLIs to log into the PKS API.
 
-Then the `k8s-manifest.yml` file is updated _in place_ with the current/latest tag, and used to update the deployment with `kubectl apply`. This interpolation was done as a workaround to the issue of jobs not having access to commits made after the job starts. I might come back to this later.
+Then the `k8s-manifest.yml` file is updated _in place_ with the current tag, and used to update the deployment with `kubectl apply`. This interpolation was done as a workaround to the issue of jobs not having access to commits made after the pipeline run starts. I might come back to this later to find a better solution.
 
 `kubectl apply` with the updated configuration file triggers a rolling update. Notice that the pods get re-created:
 

@@ -1,7 +1,7 @@
 ---
 title: "Build vs Buy"
 date: 2019-08-13T16:07:26-06:00
-draft: false
+draft: true
 ---
 
 I have a bias to buy rather than build. I have this bias primarily because when buying is even an option I can then infer that there's a market for that product.

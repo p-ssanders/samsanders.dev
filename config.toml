@@ -28,15 +28,15 @@ enableEmoji = true
 
   [[params.links]]
     iconset = "fas"
-    icon = "book"
-    title = "Resume"
-    url = "https://docs.google.com/document/d/e/2PACX-1vQ0jm0M2F0yEJbAbVMzTsf2ju_7yqGOxNqUFwevS-urYUjK3KaiRfPIiKkkVGfCgAfjlVAtumg9TJCl/pub"
-
-  [[params.links]]
-    iconset = "fas"
     icon = "envelope"
     title = "Email"
     url = "mailto:hello@samsanders.dev"
+
+  [[params.links]]
+    iconset = "fab"
+    icon = "fab fa-ethereum"
+    title = "Ethereum"
+    url = "https://samsanders.eth/"
 
 [params.colors]
   background = "#FAFAFA"

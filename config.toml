@@ -36,7 +36,7 @@ enableEmoji = true
     iconset = "fab"
     icon = "fab fa-ethereum"
     title = "Ethereum"
-    url = "https://samsanders.eth/"
+    url = "https://samsanders.eth.link/"
 
 [params.colors]
   background = "#FAFAFA"

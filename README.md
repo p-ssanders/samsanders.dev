@@ -1,6 +1,6 @@
 #   samsanders.dev
 
-Personal website & blog.
+Personal website hosted on AWS
 
 ##  Tools
 *   GitHub

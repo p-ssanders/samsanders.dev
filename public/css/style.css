@@ -102,7 +102,7 @@ main .column.right .links a {
         margin-top: 5%;
     }
 
-    main img.portrait {
+    main div.portrait {
         margin: 0;
     }
 }

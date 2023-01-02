@@ -19,11 +19,11 @@ a {
     -webkit-transition: color 0.2s ease-out;
     -moz-transition: color 0.2s ease-out;
     transition: color 0.2s ease-out;
-    color: #212121
+    color: #212121;
 }
 
 a:hover {
-    color: #d81b60
+    color: #1d428a;
 }
 
 h1 {
@@ -32,7 +32,7 @@ h1 {
 
 h2 {
     font-size: 3rem;
-    font-weight: normal
+    font-weight: normal;
 }
 
 @media screen and (max-width: 992px) {
@@ -66,7 +66,8 @@ main {
 }
 
 main .column.left {
-    text-align: end
+    display: flex;
+    justify-content: flex-end;
 }
 
 main .column.right h1 {
@@ -90,19 +91,19 @@ main .column.right .links a {
 @media screen and (max-width: 992px) {
     main {
         flex-direction: column;
-        margin-top: 0
+        margin-top: 0;
     }
 
     main .column.left {
-        text-align: center
+      justify-content: center;
     }
 
     main .column.right h1 {
-        margin-top: 0
+        margin-top: 5%;
     }
 
     main img.portrait {
-        margin: 0
+        margin: 0;
     }
 }
 

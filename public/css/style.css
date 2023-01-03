@@ -7,12 +7,16 @@ body {
 
 html {
     font-family: Montserrat, "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 1rem;;
     overflow-y: auto
 }
 
 body {
     background-color: #FAFAFA
+}
+
+p {
+    font-size: 1.25rem;
 }
 
 a {
@@ -23,37 +27,26 @@ a {
 }
 
 a:hover {
-    color: #1d428a;
+    color: #78be20;
 }
 
 h1 {
-    font-size: 9rem
+    font-size: 3rem;
 }
 
 h2 {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: normal;
 }
 
 @media screen and (max-width: 992px) {
     h1 {
-        font-size: 15vw
+        font-size: 15vw;
     }
 
     h2 {
-        font-size: 2.5rem
+        font-size: 2.5rem;
     }
-}
-
-img.portrait {
-    box-sizing: border-box;
-    border-radius: 50%;
-    border: 10px solid #212121;
-    margin: 2em 3em;
-    width: 100%;
-    height: auto;
-    max-width: 300px;
-    max-height: 300px
 }
 
 .column {
@@ -68,6 +61,7 @@ main {
 main .column.left {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 }
 
 main .column.right h1 {
@@ -80,7 +74,7 @@ main .column.right h2 {
 
 main .column.right .links {
     margin-top: 1.5rem;
-    font-size: 1.5rem
+    font-size: 1.75rem
 }
 
 main .column.right .links a {
@@ -107,14 +101,13 @@ main .column.right .links a {
     }
 }
 
-footer {
-    display: flex;
-    margin-top: 3rem;
-    font-size: 0.75rem
-}
-
-@media screen and (max-width: 992px) {
-    footer {
-        flex-direction: column
-    }
+.portrait {
+  background: url('/images/portrait.jpg');
+  background-size: cover;
+  background-position: center;
+  border: 5px solid #212121;
+  border-radius: 50% 50% 50% 50%;
+  width: 250px;
+  height: 250px;
+  margin-right: 5%;
 }

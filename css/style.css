@@ -110,8 +110,10 @@ main .column.right .links a {
 
 .portrait {
   background: url('../images/portrait.jpg');
-  background-size: cover;
-  background-position: center;
+  background-size: 125%;
+  background-position-y: -0.25em;
+  background-position-x: -2em;
+  background-repeat: no-repeat;
   border: 5px solid #212121;
   border-radius: 50% 50% 50% 50%;
   width: 250px;

@@ -6,10 +6,8 @@ body {
 }
 
 html {
-  font-family: Montserrat, "Helvetica Neue", "Segoe UI", Helvetica, Arial,
-    sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 1rem;
-  overflow-y: auto;
 }
 
 body {

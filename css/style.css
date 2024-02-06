@@ -33,11 +33,11 @@ a {
   transition: color 0.2s ease-out;
   color: #212121;
   text-decoration: underline;
-  text-decoration-color: #78be20;
+  text-decoration-color: #868A71;
 }
 
 a:hover {
-  color: #78be20;
+  color: #868A71;
 }
 
 h1 {

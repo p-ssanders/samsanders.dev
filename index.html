@@ -10,7 +10,172 @@
 
     <title>Sam Sanders</title>
 
-    <link rel="stylesheet" href="./css/style.css" />
+    <style>
+      html,
+      body {
+        color: #212121;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 1rem;
+      }
+
+      body {
+        background-color: #fafafa;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+      }
+
+      @media screen and (max-width: 992px) {
+        body {
+          margin: 0rem 1rem;
+        }
+      }
+
+      p {
+        font-size: 1.25rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      a {
+        -webkit-transition: color 0.2s ease-out;
+        -moz-transition: color 0.2s ease-out;
+        transition: color 0.2s ease-out;
+        color: #212121;
+        text-decoration: underline;
+        text-decoration-color: #868A71;
+      }
+
+      a:hover {
+        color: #868A71;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.1em;
+      }
+
+      h2 {
+        font-size: 2rem;
+        font-weight: normal;
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+      }
+
+      @media screen and (max-width: 992px) {
+        h2 {
+          font-size: 2.5rem;
+        }
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+        max-width: 960px;
+        margin: 0 2rem;
+      }
+
+      .column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        justify-content: center;
+      }
+
+      main .column.right {
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      main .column.left {
+        align-items: center;
+      }
+
+      main .column.right h1 {
+        margin-bottom: 0.4em;
+      }
+
+      main .column.right h2 {
+        margin-top: 0;
+      }
+
+      main .column.right .links {
+        margin-top: 1rem;
+        font-size: 1.75rem;
+      }
+
+      main .column.right .links a {
+        margin-right: 0.5rem;
+        text-decoration: none;
+      }
+
+      @media screen and (max-width: 992px) {
+        main {
+          flex-direction: column;
+          align-items: center;
+          margin-top: 0;
+        }
+
+        .column {
+          justify-content: flex-start;
+          width: 100%;
+          align-items: stretch;
+        }
+
+        main .column.left {
+          justify-content: center;
+          flex: 0.7;
+          align-items: center;
+        }
+
+        main .column.right {
+          max-width: none;
+          text-align: left;
+          align-items: flex-start;
+        }
+
+        main .column.right h1 {
+          margin-top: 5%;
+        }
+
+        main .column.right h2 {
+          white-space: nowrap;
+        }
+
+        main div.portrait {
+          margin: 0;
+        }
+
+        main .column.right .links a {
+          margin-right: 0.75rem;
+        }
+      }
+
+      .portrait {
+        background-image: url("./images/portrait.jpg");
+        background-image: image-set(
+          url("./images/portrait.webp") type("image/webp"),
+          url("./images/portrait.jpg") type("image/jpeg")
+        );
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: 3px solid #212121;
+        border-radius: 50% 50% 50% 50%;
+        width: 250px;
+        height: 250px;
+        margin-right: 3%;
+      }
+    </style>
 
     <link
       rel="apple-touch-icon"
@@ -30,6 +195,14 @@
       href="./favicon-16x16.png"
     />
     <link rel="manifest" href="./manifest.json" />
+    <link
+      rel="preload"
+      as="image"
+      href="./images/portrait.webp"
+      type="image/webp"
+    />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-4YM1E66P9D"

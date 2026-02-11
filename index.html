@@ -82,7 +82,7 @@
       }
 
       a {
-        transition: color 0.2s ease-out;
+        transition: color 0.4s ease-out;
         color: var(--color-text);
         text-decoration: underline;
         text-decoration-color: var(--color-accent);
@@ -173,12 +173,18 @@
         bottom: 1rem;
         right: 1rem;
         font-size: 0.6rem;
-        opacity: 0.25;
+        color: #999999;
       }
 
       footer p {
         font-size: 0.6rem;
         margin: 0;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        footer {
+          color: #888888;
+        }
       }
 
       @media screen and (max-width: 768px) {

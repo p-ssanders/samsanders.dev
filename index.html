@@ -255,18 +255,30 @@
     />
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-4YM1E66P9D"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YM1E66P9D"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
 
-      gtag("config", "G-4YM1E66P9D");
+      (function initAnalyticsDeferred(){
+        var analyticsId = 'G-4YM1E66P9D';
+        function init(){
+          if(window.gtagInitialised) return;
+          window.gtagInitialised = true;
+          try{ gtag('config', analyticsId); }catch(e){}
+        }
+
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(init, {timeout:2000});
+        } else {
+          window.addEventListener('load', function(){ setTimeout(init, 1000); }, {once:true});
+        }
+
+        ['scroll','keydown','pointerdown','click'].forEach(function(ev){
+          window.addEventListener(ev, init, {once:true, passive:true});
+        });
+      })();
     </script>
   </head>
 
@@ -292,8 +304,7 @@
 
         <p>
           I'm a software engineer at
-          <a href="https://www.mechanical-orchard.com/">Mechanical Orchard</a> based in
-          Boulder, CO, USA.
+          <a href="https://www.mechanical-orchard.com/">Mechanical Orchard</a>.
         </p>
 
         <div class="links">
@@ -311,4 +322,11 @@
       </div>
     </main>
   </body>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js').catch(function(){});
+        });
+      }
+    </script>
 </html>

@@ -5,8 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Sam Sanders is software developer based in Boulder, CO, USA."
+      content="Sam Sanders is software developer at Mechanical Orchard, based in Boulder, Colorado. This is his personal website."
     />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="Sam Sanders" />
+    <meta property="og:description" content="Software engineer at Mechanical Orchard, based in Boulder, Colorado." />
+    <meta property="og:image" content="https://samsanders.dev/images/portrait.webp" />
+    <meta property="og:url" content="https://samsanders.dev/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Sam Sanders" />
+    <meta name="twitter:description" content="Software engineer at Mechanical Orchard, based in Boulder, Colorado." />
+    <meta name="twitter:image" content="https://samsanders.dev/images/portrait.webp" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://samsanders.dev/" />
 
     <title>Sam Sanders</title>
 
@@ -239,6 +253,7 @@
       href="./favicon-16x16.png"
     />
     <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link
       rel="preload"
       as="font"
@@ -253,6 +268,22 @@
       type="image/webp"
       fetchpriority="high"
     />
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sam Sanders",
+      "jobTitle": "Software Engineer",
+      "url": "https://samsanders.dev",
+      "sameAs": [
+        "https://www.linkedin.com/in/samuelesanders/",
+        "https://github.com/p-ssanders"
+      ],
+      "image": "https://samsanders.dev/images/portrait.webp"
+    }
+    </script>
+
     <script>
       // Lazy-load Google Tag Manager
       window.dataLayer = window.dataLayer || [];

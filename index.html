@@ -160,6 +160,19 @@
         text-decoration: none;
       }
 
+      footer {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        font-size: 0.6rem;
+        opacity: 0.25;
+      }
+
+      footer p {
+        font-size: 0.6rem;
+        margin: 0;
+      }
+
       @media screen and (max-width: 768px) {
         main {
           flex-direction: column;
@@ -324,7 +337,13 @@
 
       </div>
     </main>
+    <footer>
+      <p>&copy; <span id="year"></span> Sam Sanders. All rights reserved.</p>
+    </footer>
   </body>
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {

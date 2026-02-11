@@ -253,32 +253,31 @@
       type="image/webp"
       fetchpriority="high"
     />
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YM1E66P9D"></script>
     <script>
+      // Lazy-load Google Tag Manager
       window.dataLayer = window.dataLayer || [];
       function gtag(){ dataLayer.push(arguments); }
-      gtag('js', new Date());
 
-      (function initAnalyticsDeferred(){
-        var analyticsId = 'G-4YM1E66P9D';
-        function init(){
-          if(window.gtagInitialised) return;
-          window.gtagInitialised = true;
-          try{ gtag('config', analyticsId); }catch(e){}
-        }
+      function loadGTM() {
+        if (window.gtmLoaded) return;
+        window.gtmLoaded = true;
 
-        if ('requestIdleCallback' in window) {
-          requestIdleCallback(init, {timeout:2000});
-        } else {
-          window.addEventListener('load', function(){ setTimeout(init, 1000); }, {once:true});
-        }
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4YM1E66P9D';
+        document.head.appendChild(script);
 
-        ['scroll','keydown','pointerdown','click'].forEach(function(ev){
-          window.addEventListener(ev, init, {once:true, passive:true});
-        });
-      })();
+        gtag('js', new Date());
+        gtag('config', 'G-4YM1E66P9D');
+      }
+
+      // Load on interaction
+      ['scroll','keydown','pointerdown','click'].forEach(function(ev){
+        window.addEventListener(ev, loadGTM, {once:true, passive:true});
+      });
+
+      // Fallback: load after 2 seconds
+      setTimeout(loadGTM, 2000);
     </script>
   </head>
 

@@ -8,7 +8,6 @@ const ASSETS = [
   '/apple-touch-icon.png',
   '/android-chrome-192x192.png',
   '/android-chrome-512x512.png',
-  '/free-fa-brands-400.woff2',
   '/images/portrait.webp',
   '/images/portrait.jpg'
 ];

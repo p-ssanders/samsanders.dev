@@ -7,6 +7,10 @@
       name="description"
       content="Sam Sanders is a software engineer at Mechanical Orchard, based in Boulder, Colorado. This is his personal website."
     />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+    />
 
     <!-- Open Graph / Social Sharing -->
     <meta property="og:title" content="Sam Sanders" />
@@ -23,7 +27,8 @@
     <link rel="canonical" href="https://samsanders.dev/" />
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#2f5e4e" />
+    <meta name="theme-color" content="#2f5e4e" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#5ec4a8" media="(prefers-color-scheme: dark)" />
 
     <title>Sam Sanders</title>
 

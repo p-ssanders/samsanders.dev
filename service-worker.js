@@ -9,7 +9,11 @@ const ASSETS = [
   '/android-chrome-192x192.png',
   '/android-chrome-512x512.png',
   '/images/portrait.webp',
-  '/images/portrait.jpg'
+  '/images/portrait.jpg',
+  '/robots.txt',
+  '/sitemap.xml',
+  '/security.txt',
+  '/.well-known/security.txt'
 ];
 
 self.addEventListener('install', event => {

@@ -32,6 +32,8 @@
         --color-text: #1f1f1f;
         --color-accent: #2f5e4e;
         --color-background: #f7f5f2;
+        --color-background-edge: #e8e5e0;
+        --color-muted: #6b6b6b;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -39,6 +41,8 @@
           --color-text: #f7f5f2;
           --color-accent: #5ec4a8;
           --color-background: #1f1f1f;
+          --color-background-edge: #151515;
+          --color-muted: #9ca3af;
         }
       }
 
@@ -62,7 +66,14 @@
       }
 
       body {
-        background-color: var(--color-background);
+        background-color: var(--color-background-edge);
+        /* Soft radial gradient so wide viewports don’t feel like flat empty sides */
+        background-image: radial-gradient(
+          ellipse 90% 80% at 50% 50%,
+          var(--color-background) 0%,
+          var(--color-background-edge) 100%
+        );
+        background-attachment: fixed;
         height: 100vh;
         display: flex;
         justify-content: center;
@@ -102,20 +113,34 @@
       }
 
       h1 {
-        font-size: 3rem;
+        font-size: 1.5rem;
         margin-top: 0;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
+        margin-bottom: 0.25rem;
+        font-weight: 400;
+        color: var(--color-muted);
+        letter-spacing: 0.02em;
       }
 
       h2 {
-        font-size: 1.9rem;
-        font-weight: 300;
+        font-size: 3rem;
+        font-weight: 600;
         margin-top: 0;
         margin-bottom: 1rem;
+        color: var(--color-accent);
       }
 
       @media screen and (max-width: 768px) {
+        h1 {
+          font-size: 1.25rem;
+        }
+
+        h2 {
+          font-size: 2.25rem;
+          white-space: normal;
+        }
+      }
+
+      @media screen and (max-width: 420px) {
         h2 {
           font-size: 1.75rem;
         }
@@ -172,19 +197,13 @@
         position: fixed;
         bottom: 1rem;
         right: 1rem;
-        font-size: 0.6rem;
-        color: #999999;
+        font-size: 0.75rem;
+        color: var(--color-muted);
       }
 
       footer p {
-        font-size: 0.6rem;
+        font-size: 0.75rem;
         margin: 0;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        footer {
-          color: #888888;
-        }
       }
 
       @media screen and (max-width: 768px) {
@@ -216,9 +235,6 @@
           margin-top: 5%;
         }
 
-        main .column.right h2 {
-          white-space: nowrap;
-        }
 
         main div.portrait {
           margin: 0 auto;

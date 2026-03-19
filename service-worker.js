@@ -1,7 +1,9 @@
-const CACHE_NAME = 'samsanders-cache-v1';
+const CACHE_NAME = 'samsanders-cache-v2';
 const ASSETS = [
   '/',
   '/index.html',
+  '/work',
+  '/work.html',
   '/manifest.json',
   '/favicon-32x32.png',
   '/favicon-16x16.png',
@@ -24,7 +26,11 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(clients.claim());
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    ).then(() => clients.claim())
+  );
 });
 
 self.addEventListener('fetch', event => {

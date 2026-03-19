@@ -39,6 +39,7 @@
         --color-background: #f7f5f2;
         --color-background-edge: #e8e5e0;
         --color-muted: #6b6b6b;
+        --color-surface: rgba(255, 255, 255, 0.4);
       }
 
       @media (prefers-color-scheme: dark) {
@@ -48,6 +49,7 @@
           --color-background: #1f1f1f;
           --color-background-edge: #151515;
           --color-muted: #9ca3af;
+          --color-surface: rgba(255, 255, 255, 0.04);
         }
       }
 
@@ -72,7 +74,6 @@
 
       body {
         background-color: var(--color-background-edge);
-        /* Soft radial gradient so wide viewports don’t feel like flat empty sides */
         background-image: radial-gradient(
           ellipse 90% 80% at 50% 50%,
           var(--color-background) 0%,
@@ -123,12 +124,16 @@
         vertical-align: -0.125em;
       }
 
+      /* ── Splash: name in Georgia serif ── */
       h2 {
+        font-family: Georgia, 'Times New Roman', serif;
         font-size: 2.5rem;
-        font-weight: 600;
+        font-weight: 700;
         margin-top: 0;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
         color: var(--color-accent);
+        opacity: 0;
+        animation: fadeUp 0.6s ease 0.1s forwards;
       }
 
       @media screen and (max-width: 768px) {
@@ -177,9 +182,21 @@
         margin-top: 0;
       }
 
+      /* Splash role text: smaller, muted */
+      main .column.right > p {
+        font-size: 1rem;
+        color: var(--color-muted);
+        margin-top: 0;
+        margin-bottom: 0;
+        opacity: 0;
+        animation: fadeUp 0.6s ease 0.2s forwards;
+      }
+
       main .column.right .links {
         margin-top: 1rem;
         font-size: 1.75rem;
+        opacity: 0;
+        animation: fadeUp 0.6s ease 0.3s forwards;
       }
 
       main .column.right .links a {
@@ -246,10 +263,13 @@
         }
       }
 
+      /* ── Portrait: circular with accent shadow ── */
       .portrait {
         width: clamp(250px, 25vw, 350px);
         height: clamp(250px, 25vw, 350px);
         margin-right: 3%;
+        opacity: 0;
+        animation: fadeUp 0.6s ease 0s forwards;
       }
 
       .portrait img {
@@ -259,14 +279,25 @@
         border: 2px solid var(--color-accent);
         border-radius: 50%;
         display: block;
+        box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 15%, transparent);
       }
 
+      /* ── Work sections ── */
       .work-section {
         width: 100%;
         max-width: 960px;
         padding: 5rem 4rem 3rem;
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
       }
 
+      .work-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ── Section headings: label + thin underline ── */
       .work-section .section-heading {
         font-size: 0.8rem;
         font-weight: 600;
@@ -274,15 +305,30 @@
         text-transform: uppercase;
         color: var(--color-muted);
         margin-top: 0;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--color-background-edge);
       }
 
+      /* ── Profile: editorial lede in Georgia ── */
       .work-section .summary {
-        font-size: 1.4rem;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 1.5rem;
         font-weight: 300;
         color: var(--color-text);
         max-width: none;
-        margin-bottom: 4rem;
+        margin-bottom: 0;
+        margin-top: 0;
+        line-height: 1.7;
+      }
+
+      /* ── Impact: intro text muted ── */
+      .impact-intro {
+        font-size: 1.1rem;
+        font-weight: 300;
+        color: var(--color-muted);
+        max-width: none;
+        margin-bottom: 2rem;
         margin-top: 0;
         line-height: 1.65;
       }
@@ -291,16 +337,20 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 2.5rem 4rem;
-        margin-bottom: 4rem;
       }
 
+      /* Impact cards: teal top border accent */
       .impact-item {
         display: flex;
         flex-direction: column;
         gap: 0.4rem;
+        border-top: 2px solid var(--color-accent);
+        padding-top: 0.75rem;
       }
 
+      /* Impact lead: Georgia serif headline feel */
       .impact-lead {
+        font-family: Georgia, 'Times New Roman', serif;
         font-size: 1.125rem;
         font-weight: 600;
         color: var(--color-text);
@@ -315,10 +365,66 @@
         line-height: 1.5;
       }
 
+      /* ── Quote section ── */
+      .quote-section {
+        border-top: 1px solid var(--color-background-edge);
+        padding: 6rem 4rem;
+        text-align: center;
+      }
+
+      .quote-section blockquote {
+        position: relative;
+        max-width: 52ch;
+        margin: 0 auto;
+        border-left: none;
+        padding: 0;
+      }
+
+      .quote-section blockquote::before {
+        content: '\201C';
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 6rem;
+        line-height: 0;
+        color: var(--color-accent);
+        opacity: 0.3;
+        display: block;
+        margin-bottom: 2rem;
+        padding-top: 3rem;
+      }
+
+      .quote-section blockquote p {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-style: italic;
+        font-size: 1.35rem;
+        font-weight: 400;
+        color: var(--color-text);
+        line-height: 1.7;
+        margin: 0 0 1.5rem;
+        max-width: none;
+      }
+
+      .quote-section blockquote cite {
+        display: block;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+        font-size: 0.75rem;
+        font-style: normal;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+        text-align: right;
+      }
+
+      /* ── Expertise: 2-column reference-card grid ── */
       .expertise-groups {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
+        display: grid;
+        grid-template-columns: 13rem 1fr;
+        gap: 1.25rem 3rem;
+        align-items: start;
+      }
+
+      .expertise-group {
+        display: contents;
       }
 
       .expertise-category {
@@ -327,8 +433,9 @@
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--color-muted);
-        margin: 0 0 0.3rem;
+        margin: 0;
         max-width: none;
+        padding-top: 0.15rem;
       }
 
       .expertise-items {
@@ -361,22 +468,10 @@
         padding-top: 4rem;
       }
 
-      .impact-intro {
-        font-size: 1.25rem;
-        font-weight: 300;
-        color: var(--color-text);
-        max-width: none;
-        margin-bottom: 2rem;
-        margin-top: 0;
-        line-height: 1.65;
-      }
-
-      blockquote.social-proof {
-        border-left: 2px solid var(--color-accent);
-        padding-left: 1rem;
-        font-style: italic;
-        color: var(--color-muted);
-        margin: 0 0 4rem;
+      /* ── Stagger fade-in on load ── */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
 
       @media screen and (max-width: 768px) {
@@ -392,6 +487,32 @@
         .impact-grid {
           grid-template-columns: 1fr;
           gap: 2rem;
+        }
+
+        .quote-section {
+          padding: 4rem 0;
+        }
+
+        .quote-section blockquote p {
+          font-size: 1.1rem;
+        }
+
+        .quote-section blockquote::before {
+          font-size: 4rem;
+        }
+
+        .expertise-groups {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+
+        .expertise-group {
+          display: block;
+          margin-bottom: 1.25rem;
+        }
+
+        .expertise-category {
+          margin-bottom: 0.25rem;
         }
       }
     </style>
@@ -507,7 +628,7 @@
       <p class="summary">18 years building and selling enterprise software. I repeatedly step into roles that haven't been fully defined — turning what no one else sees into something everyone can act on. I lead by doing, including shipping code.</p>
     </section>
 
-    <section class="work-section below-fold">
+    <section class="work-section impact-section">
       <h3 class="section-heading">Impact</h3>
       <p class="impact-intro">A recurring pattern across engagements: step in where the role is undefined, figure it out hands-on, and leave the organization more capable than before.</p>
       <div class="impact-grid">
@@ -544,12 +665,16 @@
           <p class="impact-detail">Established a repeatable pattern using Helm and ArgoCD.</p>
         </div>
       </div>
+    </section>
 
+    <section class="work-section quote-section">
       <blockquote class="social-proof">
-        "You are the most impactful engineer at MO and highly respected throughout the company."<br>
-        — VP Programs
+        <p>"You are the most impactful engineer at MO and highly respected throughout the company."</p>
+        <cite>VP Programs</cite>
       </blockquote>
+    </section>
 
+    <section class="work-section expertise-section below-fold">
       <h3 class="section-heading">Expertise</h3>
       <div class="expertise-groups">
         <div class="expertise-group">
@@ -577,6 +702,19 @@
   </body>
     <script>
       document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <script>
+      // Fade in work sections on scroll
+      var workSections = document.querySelectorAll('.work-section');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      workSections.forEach(function(section) { observer.observe(section); });
     </script>
     <script>
       if ('serviceWorker' in navigator) {

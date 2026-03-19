@@ -123,15 +123,6 @@
         vertical-align: -0.125em;
       }
 
-      h1 {
-        font-size: 1.5rem;
-        margin-top: 0;
-        margin-bottom: 0.25rem;
-        font-weight: 400;
-        color: var(--color-muted);
-        letter-spacing: 0.02em;
-      }
-
       h2 {
         font-size: 2.5rem;
         font-weight: 600;
@@ -141,10 +132,6 @@
       }
 
       @media screen and (max-width: 768px) {
-        h1 {
-          font-size: 1.25rem;
-        }
-
         h2 {
           font-size: 2.25rem;
           white-space: normal;
@@ -158,6 +145,7 @@
       }
 
       main {
+        position: relative;
         display: flex;
         align-items: center;
         min-height: 100vh;
@@ -183,10 +171,6 @@
 
       main .column.left {
         align-items: center;
-      }
-
-      main .column.right h1 {
-        margin-bottom: 0.4em;
       }
 
       main .column.right h2 {
@@ -251,11 +235,6 @@
           text-align: left;
           align-items: flex-start;
         }
-
-        main .column.right h1 {
-          margin-top: 5%;
-        }
-
 
         main div.portrait {
           margin: 0 auto;
@@ -341,6 +320,23 @@
         line-height: 1.8;
         margin: 0;
         max-width: none;
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--color-muted);
+        font-size: 1.25rem;
+        opacity: 0.5;
+        animation: bob 2.5s ease-in-out infinite;
+        user-select: none;
+      }
+
+      @keyframes bob {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(6px); }
       }
 
       @media screen and (max-width: 768px) {
@@ -442,13 +438,11 @@
         </div>
       </div>
       <div class="column right">
-        <h1>Hello!</h1>
         <h2>I'm Sam Sanders.</h2>
 
         <p>
           I'm the Field CTO at
           <a href="https://www.mechanical-orchard.com/" rel="noopener noreferrer">Mechanical Orchard</a>.
-          <br/>
           I find the path forward when no one can see one yet.
         </p>
 
@@ -461,6 +455,7 @@
           </a>
         </div>
       </div>
+      <div class="scroll-hint" aria-hidden="true">↓</div>
     </main>
 
     <section class="work-section">

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sam Sanders is Field CTO at Mechanical Orchard. Seventeen years of impact across enterprise software delivery, platform engineering, and client-facing technical leadership."
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+    />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://samsanders.dev/work" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#2f5e4e" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#5ec4a8" media="(prefers-color-scheme: dark)" />
+
+    <title>Work — Sam Sanders</title>
+
+    <style>
+      :root {
+        --color-text: #1f1f1f;
+        --color-accent: #2f5e4e;
+        --color-background: #f7f5f2;
+        --color-background-edge: #e8e5e0;
+        --color-muted: #6b6b6b;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-text: #f7f5f2;
+          --color-accent: #5ec4a8;
+          --color-background: #1f1f1f;
+          --color-background-edge: #151515;
+          --color-muted: #9ca3af;
+        }
+      }
+
+      html,
+      body {
+        color: var(--color-text);
+        margin: 0;
+        padding: 0;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      body {
+        background-color: var(--color-background-edge);
+        background-image: radial-gradient(
+          ellipse 90% 80% at 50% 50%,
+          var(--color-background) 0%,
+          var(--color-background-edge) 100%
+        );
+        background-attachment: fixed;
+      }
+
+      @media screen and (max-width: 768px) {
+        body {
+          margin: 0rem 1rem;
+        }
+      }
+
+      p {
+        font-size: 1.25rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      a {
+        transition: color 0.4s ease-out;
+        color: var(--color-text);
+        text-decoration: underline;
+        text-decoration-color: var(--color-accent);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 2px;
+      }
+
+      a:hover {
+        color: var(--color-accent);
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        font-size: 0.75rem;
+        color: var(--color-muted);
+      }
+
+      footer p {
+        font-size: 0.75rem;
+        margin: 0;
+      }
+
+      /* work.html layout */
+      body {
+        height: auto;
+        min-height: 100vh;
+        display: block;
+      }
+
+      main {
+        display: block;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 4rem 2rem 5rem;
+      }
+
+      p {
+        max-width: 60ch;
+      }
+
+      .section-heading {
+        font-size: 0.875rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+      }
+
+      @media screen and (max-width: 768px) {
+        main {
+          padding: 2rem 1rem 5rem;
+          margin: 0;
+        }
+      }
+    </style>
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./favicon-16x16.png"
+    />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <script>
+      // Lazy-load Google Tag Manager
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+
+      function loadGTM() {
+        if (window.gtmLoaded) return;
+        window.gtmLoaded = true;
+
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4YM1E66P9D';
+        document.head.appendChild(script);
+
+        gtag('js', new Date());
+        gtag('config', 'G-4YM1E66P9D');
+      }
+
+      // Load on interaction
+      ['scroll','keydown','pointerdown','click'].forEach(function(ev){
+        window.addEventListener(ev, loadGTM, {once:true, passive:true});
+      });
+
+      // Fallback: load after 2 seconds
+      setTimeout(loadGTM, 2000);
+    </script>
+  </head>
+
+  <body>
+    <main>
+      <nav style="margin-bottom: 2rem;">
+        <a href="/">← Home</a>
+      </nav>
+
+      <section style="margin-bottom: 3rem;">
+        <p>Software engineer, architect, and leader with 17 years of experience building and delivering enterprise software. Known for spanning technical depth and client-facing leadership — from platform architecture and hands-on delivery to pre-sales, program strategy, and product direction.</p>
+      </section>
+
+      <section style="margin-bottom: 3rem;">
+        <h3 class="section-heading">Impact</h3>
+
+        <p><strong>Reshaped how a product company sells and demonstrates its core platform</strong> — stepped in as the sole technical staff at a high-stakes pre-sales workshop for a global automotive OEM, developed an original talk track that produced a scoped PoC engagement and changed how the company runs such workshops.</p>
+
+        <p><strong>Made a company's product actually demoable</strong> — assembled the first complete, integrated end-to-end demonstration of a multi-subsystem platform, surfacing and fixing integration gaps across six independently-built components that no individual team knew existed.</p>
+
+        <p><strong>Held a Fortune 500 retailer's multi-year modernization program together</strong> — through a new CEO, the loss of the internal executive sponsor, and multiple compliance crises.</p>
+
+        <p><strong>Realigned siloed development teams at a federal defense agency</strong> — over two years, from disorganized to performing, building a distributed, event-based system of systems.</p>
+
+        <p><strong>Delivered a path to production Kubernetes for a US Army program in under two weeks</strong> — in a fully disconnected environment with no prior pattern to follow.</p>
+
+        <p><strong>Reduced developer onboarding time by 93% at a federal benefits agency</strong> — through automation and user-centered documentation.</p>
+
+        <p><strong>Migrated 50+ legacy web applications to Amazon EKS for a federal immigration agency</strong> — establishing a repeatable pattern using Helm and ArgoCD for the broader portfolio.</p>
+
+        <p><strong>Led development of a batch execution platform from concept to general availability</strong> — the most technically complex component of the company's core product, requiring both engineering leadership and product judgment.</p>
+      </section>
+
+      <section style="margin-bottom: 3rem;">
+        <h3 class="section-heading">Expertise</h3>
+        <p style="color: var(--color-muted);">Engineering Leadership · Team Building · Cloud-Native Architecture · Test-Driven Development · Platform Engineering · Kubernetes · AWS · Java · Spring Boot · Domain-Driven Design · Developer Experience · OKRs</p>
+      </section>
+    </main>
+
+    <footer role="contentinfo">
+      <p>&copy; <span id="year"></span> Sam Sanders.</p>
+    </footer>
+  </body>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js').catch(function(){});
+      });
+    }
+  </script>
+</html>

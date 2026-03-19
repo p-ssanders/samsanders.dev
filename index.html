@@ -339,6 +339,23 @@
         50% { transform: translateX(-50%) translateY(6px); }
       }
 
+      .below-fold {
+        border-top: 1px solid var(--color-background-edge);
+        padding-top: 4rem;
+      }
+
+      .bio {
+        margin-bottom: 4rem;
+      }
+
+      .bio-text {
+        font-size: 1.1rem;
+        color: var(--color-text);
+        line-height: 1.7;
+        margin: 0 0 1rem;
+        max-width: 60ch;
+      }
+
       @media screen and (max-width: 768px) {
         .work-section {
           padding: 4rem 0 3rem;
@@ -443,7 +460,6 @@
         <p>
           I'm the Field CTO at
           <a href="https://www.mechanical-orchard.com/" rel="noopener noreferrer">Mechanical Orchard</a>.
-          I know what to do next.
         </p>
 
         <div class="links">
@@ -459,34 +475,48 @@
     </main>
 
     <section class="work-section">
-      <p class="summary">Known for spanning technical depth and client-facing leadership — from platform architecture and hands-on delivery to pre-sales, program strategy, and product direction. 18 years building enterprise software.</p>
+      <p class="summary">18 years building enterprise software. Equally at home in the IDE and the boardroom — leading delivery teams, navigating client relationships, and shipping code on the same engagement.</p>
 
+    </section>
+
+    <section class="work-section below-fold">
       <h3 class="section-heading">Impact</h3>
       <div class="impact-grid">
         <div class="impact-item">
-          <p class="impact-lead">Reshaped how a product company sells and demonstrates its core platform</p>
-          <p class="impact-detail">Stepped in as the sole technical staff at a high-stakes pre-sales workshop for a global automotive OEM, developed an original talk track that produced a scoped PoC engagement and changed how the company runs such workshops.</p>
+          <p class="impact-lead">Reshaped how a product company sells its platform</p>
+          <p class="impact-detail">Solo technical lead at a global OEM pre-sales workshop — the talk track I created became the company standard.</p>
         </div>
         <div class="impact-item">
-          <p class="impact-lead">Made a company's product actually demoable</p>
-          <p class="impact-detail">Assembled the first complete, integrated end-to-end demonstration of a multi-subsystem platform, surfacing and fixing integration gaps across six independently-built components that no individual team knew existed.</p>
+          <p class="impact-lead">Made a product actually demoable</p>
+          <p class="impact-detail">Assembled the first end-to-end demo by finding and fixing integration failures across six teams.</p>
         </div>
         <div class="impact-item">
-          <p class="impact-lead">Held a Fortune 500 retailer's multi-year modernization program together</p>
-          <p class="impact-detail">Through a new CEO, the loss of the internal executive sponsor, and multiple compliance crises.</p>
+          <p class="impact-lead">Held a Fortune 500 retailer's modernization program together</p>
+          <p class="impact-detail">Through a CEO change, loss of executive sponsor, and a compliance crisis.</p>
         </div>
         <div class="impact-item">
-          <p class="impact-lead">Realigned siloed development teams at a federal defense agency</p>
-          <p class="impact-detail">Over two years, from disorganized to performing, building a distributed, event-based system of systems.</p>
+          <p class="impact-lead">Turned two years of disorganized federal agency development into a performing team</p>
         </div>
         <div class="impact-item">
           <p class="impact-lead">Led development of a batch execution platform from concept to general availability</p>
-          <p class="impact-detail">The most technically complex component of the company's core product, requiring both engineering leadership and product judgment.</p>
+          <p class="impact-detail">The most technically complex component of the company's core product.</p>
+        </div>
+        <div class="impact-item">
+          <p class="impact-lead">Delivered production-ready Kubernetes to a US Army program in under two weeks</p>
+          <p class="impact-detail">In a fully disconnected environment.</p>
+        </div>
+        <div class="impact-item">
+          <p class="impact-lead">Reduced developer onboarding time by 93% at a federal benefits agency</p>
+          <p class="impact-detail">Through automation and documentation.</p>
+        </div>
+        <div class="impact-item">
+          <p class="impact-lead">Migrated 50+ legacy web applications to Amazon EKS for a federal immigration agency</p>
+          <p class="impact-detail">Established a repeatable pattern using Helm and ArgoCD.</p>
         </div>
       </div>
 
       <h3 class="section-heading">Expertise</h3>
-      <p class="expertise">Engineering Leadership · Program Leadership · Client Technical Strategy · Pre-Sales · Partner Enablement · Enterprise Modernization · Mainframe Modernization · Platform Engineering · Cloud-Native Architecture · Developer Experience · Kubernetes · AWS</p>
+      <p class="expertise">Engineering Leadership · Team Building · Cloud-Native Architecture · Test-Driven Development · Platform Engineering · Kubernetes · AWS · Java · Spring Boot · Domain-Driven Design · Developer Experience · OKRs · Technical Sales · Enterprise Modernization</p>
     </section>
 
     <footer role="contentinfo">

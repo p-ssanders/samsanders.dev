@@ -2,8 +2,6 @@ const CACHE_NAME = 'samsanders-cache-v2';
 const ASSETS = [
   '/',
   '/index.html',
-  '/work/',
-  '/work/index.html',
   '/manifest.json',
   '/favicon-32x32.png',
   '/favicon-16x16.png',

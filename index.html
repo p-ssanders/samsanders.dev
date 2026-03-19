@@ -315,9 +315,25 @@
         line-height: 1.55;
       }
 
-      .expertise {
-        font-size: 1rem;
+      .expertise-groups {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .expertise-category {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
         color: var(--color-muted);
+        margin: 0 0 0.3rem;
+        max-width: none;
+      }
+
+      .expertise-items {
+        font-size: 1rem;
+        color: var(--color-text);
         line-height: 1.8;
         margin: 0;
         max-width: none;
@@ -481,8 +497,8 @@
     </main>
 
     <section class="work-section">
+      <h3 class="section-heading">Profile</h3>
       <p class="summary">18 years building enterprise software. Equally at home in the architecture diagram and the boardroom — leading delivery teams, navigating client relationships, and shipping code on the same engagement.</p>
-
     </section>
 
     <section class="work-section below-fold">
@@ -502,6 +518,7 @@
         </div>
         <div class="impact-item">
           <p class="impact-lead">Turned two years of disorganized federal agency development into a performing team</p>
+          <p class="impact-detail">Realigned siloed US Space Force development teams into a cohesive portfolio delivering a distributed, event-based system of systems.</p>
         </div>
         <div class="impact-item">
           <p class="impact-lead">Led development of a batch execution platform from concept to general availability</p>
@@ -522,7 +539,20 @@
       </div>
 
       <h3 class="section-heading">Expertise</h3>
-      <p class="expertise">Engineering Leadership · Team Building · Cloud-Native Architecture · Test-Driven Development · Platform Engineering · Kubernetes · AWS · Google Cloud · Java · Spring Boot · Domain-Driven Design · Developer Experience · OKRs · Technical Sales · Enterprise Modernization</p>
+      <div class="expertise-groups">
+        <div class="expertise-group">
+          <p class="expertise-category">Leadership</p>
+          <p class="expertise-items">Engineering Leadership · Team Building · Technical Sales · Enterprise Modernization · OKRs</p>
+        </div>
+        <div class="expertise-group">
+          <p class="expertise-category">Architecture</p>
+          <p class="expertise-items">Cloud-Native Architecture · Platform Engineering · Domain-Driven Design · Developer Experience</p>
+        </div>
+        <div class="expertise-group">
+          <p class="expertise-category">Technical</p>
+          <p class="expertise-items">Java · Spring Boot · Kubernetes · AWS · Google Cloud · Test-Driven Development</p>
+        </div>
+      </div>
     </section>
 
     <footer role="contentinfo">

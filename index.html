@@ -517,6 +517,25 @@
       }
     </style>
 
+    <script>
+      (function() {
+        // Six hues at 60° intervals from the base teal (160°).
+        // S and L are fixed at the values derived from the original accent colors,
+        // so all swatches are perceptually equivalent in weight.
+        var hues = [160, 220, 280, 340, 40, 100];
+        var h = hues[Math.floor(Math.random() * hues.length)];
+        var dark = window.matchMedia('(prefers-color-scheme: dark)');
+        var root = document.documentElement;
+        function apply() {
+          root.style.setProperty('--color-accent', dark.matches
+            ? 'hsl(' + h + ', 46%, 57%)'
+            : 'hsl(' + h + ', 33%, 28%)');
+        }
+        apply();
+        dark.addEventListener('change', apply);
+      })();
+    </script>
+
     <link
       rel="apple-touch-icon"
       sizes="180x180"

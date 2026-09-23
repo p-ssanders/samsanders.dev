@@ -1,4 +1,4 @@
-const CACHE_NAME = 'samsanders-cache-v4';
+const CACHE_NAME = 'samsanders-cache-v5';
 const CACHE_PREFIX = 'samsanders-cache-';
 const ASSETS = [
   '/',
@@ -9,7 +9,7 @@ const ASSETS = [
   '/apple-touch-icon.png',
   '/android-chrome-192x192.png',
   '/android-chrome-512x512.png',
-  '/images/portrait.webp',
+  '/images/portrait-2026-09.webp',
   '/robots.txt',
   '/sitemap.xml',
   '/security.txt'

@@ -1,8 +1,9 @@
-const CACHE_NAME = 'samsanders-cache-v5';
+const CACHE_NAME = 'samsanders-cache-v6';
 const CACHE_PREFIX = 'samsanders-cache-';
 const ASSETS = [
   '/',
   '/index.html',
+  '/portrait.js',
   '/manifest.json',
   '/favicon-32x32.png',
   '/favicon-16x16.png',

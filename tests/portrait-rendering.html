@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portrait sampling regression check</title>
+<style>
+  :root { --color-background: #1f1f1f; --color-accent: #a0cf78; }
+  body { font: 16px system-ui; margin: 32px; }
+  .portrait { position: relative; width: 384px; height: 384px; }
+  img { display: block; box-sizing: border-box; border: 1px solid transparent;
+    width: 384px; height: 384px; object-fit: cover; object-position: center 10%; }
+  canvas { position: absolute; inset: 1px; width: 382px; height: 382px; }
+</style>
+<h1>Responsive portrait sampling</h1>
+<p>This browser check compares the real renderer's sampled pixels against an
+  independent crop of the original bitmap. Run with a fine pointer and reduced motion off.</p>
+<p id="result" role="status">Running…</p>
+<div class="portrait"><img alt="Sam Sanders" src="../images/portrait-2026-09.webp"
+  srcset="../images/portrait-2026-09.webp 700w" sizes="431px"></div>
+<script>
+  // Observe real pixel output without replacing the canvas implementation.
+  const readPixels = CanvasRenderingContext2D.prototype.getImageData;
+  let sampled;
+  CanvasRenderingContext2D.prototype.getImageData = function (...args) {
+    const pixels = readPixels.apply(this, args);
+    if (!sampled) sampled = pixels;
+    return pixels;
+  };
+</script>
+<script src="../portrait.js"></script>
+<script>
+  (async () => {
+    const status = document.querySelector('#result');
+    try {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches ||
+          !matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        throw new Error('Skipped: use a fine pointer with reduced motion off.');
+      }
+      const photo = document.querySelector('img');
+      await photo.decode();
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const bounds = photo.getBoundingClientRect();
+      photo.parentElement.dispatchEvent(new PointerEvent('pointermove', {
+        pointerType: 'mouse', clientX: bounds.x + 150, clientY: bounds.y + 150
+      }));
+      if (!sampled) throw new Error('Renderer did not produce sampled pixels.');
+      const source = new Image();
+      source.src = photo.currentSrc;
+      await source.decode();
+      if (source.naturalWidth === photo.naturalWidth) {
+        throw new Error('Fixture must exercise density-corrected srcset dimensions.');
+      }
+      const reference = document.createElement('canvas');
+      reference.width = sampled.width;
+      reference.height = sampled.height;
+      const context = reference.getContext('2d');
+      const square = Math.min(source.naturalWidth, source.naturalHeight);
+      context.drawImage(source, (source.naturalWidth - square) * 0.5,
+        (source.naturalHeight - square) * 0.1, square, square,
+        0, 0, reference.width, reference.height);
+      const expected = readPixels.call(context, 0, 0, reference.width, reference.height).data;
+      let error = 0;
+      sampled.data.forEach((value, i) => { error += Math.abs(value - expected[i]); });
+      error /= expected.length;
+      // Allow <1% for rounded intrinsic dimensions and crop/resize filtering.
+      // The original srcset/source-rectangle mismatch produces an error >70.
+      if (error > 2) throw new Error(`Portrait crop differs from source: mean channel error ${error.toFixed(3)}.`);
+      status.textContent = `PASS — responsive image ${photo.naturalWidth}px, bitmap ${source.naturalWidth}px; mean channel error ${error.toFixed(3)} / 255.`;
+    } catch (error) {
+      status.textContent = `FAIL — ${error.message}`;
+    } finally {
+      CanvasRenderingContext2D.prototype.getImageData = readPixels;
+    }
+  })();
+</script>
+</html>

@@ -9,7 +9,7 @@
     />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'sha256-5pttnyE4MZm2RD1sKP0DrgiSpK4iOBlonidy0Yf4QmA=' 'sha256-vO9txf9FPHvzk6o5Szf9lOeJ/J9JyGmwnDTtqe4yafs=' 'sha256-/NChd8CJEqE61lVzKW07nCM4qE3JPsgd3cFk9B5itt0=' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'sha256-3TdUbetsvgRmaaAuPgjVydHekbbKJSSgQG9We3hqR6Q='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+      content="default-src 'self'; script-src 'self' 'sha256-5pttnyE4MZm2RD1sKP0DrgiSpK4iOBlonidy0Yf4QmA=' 'sha256-vO9txf9FPHvzk6o5Szf9lOeJ/J9JyGmwnDTtqe4yafs=' 'sha256-/NChd8CJEqE61lVzKW07nCM4qE3JPsgd3cFk9B5itt0=' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'sha256-H+/2ezxvlSIFOCQo01ryhH08S0bHqeB1iNNX55SxES8='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
     />
 
     <!-- Open Graph / Social Sharing -->
@@ -132,8 +132,6 @@
         margin-top: 0;
         margin-bottom: 0.75rem;
         color: var(--color-accent);
-        opacity: 0;
-        animation: fadeUp 0.6s ease 0.1s forwards;
       }
 
       @media screen and (max-width: 768px) {
@@ -188,15 +186,11 @@
         color: var(--color-text);
         margin-top: 0;
         margin-bottom: 0;
-        opacity: 0;
-        animation: fadeUp 0.6s ease 0.2s forwards;
       }
 
       main .column.right .links {
         margin-top: 1rem;
         font-size: 1.75rem;
-        opacity: 0;
-        animation: fadeUp 0.6s ease 0.3s forwards;
       }
 
       main .column.right .links a {
@@ -253,8 +247,6 @@
         width: clamp(250px, 25vw, 350px);
         height: clamp(250px, 25vw, 350px);
         margin-right: 3%;
-        opacity: 0;
-        animation: fadeUp 0.6s ease 0s forwards;
       }
 
       .portrait img {
@@ -268,21 +260,7 @@
         box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 15%, transparent);
       }
 
-      /* ── Stagger fade-in on load ── */
-      @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(16px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-
       @media (prefers-reduced-motion: reduce) {
-        h1,
-        .portrait,
-        main .column.right > p,
-        main .column.right .links {
-          animation: none;
-          opacity: 1;
-        }
-
         a,
         main .column.right .links a {
           transition: none;

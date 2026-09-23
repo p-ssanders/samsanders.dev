@@ -9,7 +9,7 @@
     />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+      content="default-src 'self'; script-src 'self' 'sha256-5pttnyE4MZm2RD1sKP0DrgiSpK4iOBlonidy0Yf4QmA=' 'sha256-vO9txf9FPHvzk6o5Szf9lOeJ/J9JyGmwnDTtqe4yafs=' 'sha256-/NChd8CJEqE61lVzKW07nCM4qE3JPsgd3cFk9B5itt0=' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'sha256-Y1MfHjrOyYYDrWqu2K6qsj+NALXTxySq4o3pcFlwQ2c='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
     />
 
     <!-- Open Graph / Social Sharing -->
@@ -125,7 +125,7 @@
       }
 
       /* ── Splash: name in Georgia serif ── */
-      h2 {
+      h1 {
         font-family: Georgia, 'Times New Roman', serif;
         font-size: 2.5rem;
         font-weight: 700;
@@ -137,14 +137,14 @@
       }
 
       @media screen and (max-width: 768px) {
-        h2 {
+        h1 {
           font-size: 2.25rem;
           white-space: normal;
         }
       }
 
       @media screen and (max-width: 420px) {
-        h2 {
+        h1 {
           font-size: 1.75rem;
         }
       }
@@ -178,7 +178,7 @@
         align-items: center;
       }
 
-      main .column.right h2 {
+      main .column.right h1 {
         margin-top: 0;
       }
 
@@ -272,6 +272,26 @@
         from { opacity: 0; transform: translateY(16px); }
         to   { opacity: 1; transform: translateY(0); }
       }
+
+      @media (prefers-reduced-motion: reduce) {
+        h1,
+        .portrait,
+        main .column.right > p,
+        main .column.right .links {
+          animation: none;
+          opacity: 1;
+        }
+
+        a,
+        main .column.right .links a {
+          transition: none;
+        }
+
+        main .column.right .links a:hover,
+        main .column.right .links a:focus-visible {
+          transform: none;
+        }
+      }
     </style>
 
     <script>
@@ -327,6 +347,11 @@
       "name": "Sam Sanders",
       "jobTitle": "Principal Engineer",
       "url": "https://samsanders.dev",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Mechanical Orchard",
+        "url": "https://www.mechanical-orchard.com/"
+      },
       "sameAs": [
         "https://www.linkedin.com/in/samuelesanders/",
         "https://github.com/p-ssanders"
@@ -380,7 +405,7 @@
         </div>
       </div>
       <div class="column right">
-        <h2>I'm Sam Sanders.</h2>
+        <h1>I'm Sam Sanders.</h1>
 
         <p>
           I'm a Principal Engineer at

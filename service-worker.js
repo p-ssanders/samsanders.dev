@@ -1,4 +1,5 @@
-const CACHE_NAME = 'samsanders-cache-v2';
+const CACHE_NAME = 'samsanders-cache-v4';
+const CACHE_PREFIX = 'samsanders-cache-';
 const ASSETS = [
   '/',
   '/index.html',
@@ -9,11 +10,9 @@ const ASSETS = [
   '/android-chrome-192x192.png',
   '/android-chrome-512x512.png',
   '/images/portrait.webp',
-  '/images/portrait.jpg',
   '/robots.txt',
   '/sitemap.xml',
-  '/security.txt',
-  '/.well-known/security.txt'
+  '/security.txt'
 ];
 
 self.addEventListener('install', event => {
@@ -26,7 +25,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+      Promise.all(keys.filter(k => k.startsWith(CACHE_PREFIX) && k !== CACHE_NAME).map(k => caches.delete(k)))
     ).then(() => clients.claim())
   );
 });
@@ -34,28 +33,58 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const requestURL = new URL(event.request.url);
+  if (requestURL.origin !== location.origin) return;
 
   // Same-origin static assets: cache-first
-  if (requestURL.origin === location.origin && (
+  if (
     requestURL.pathname.startsWith('/images/') ||
     requestURL.pathname.endsWith('.woff2') ||
     requestURL.pathname.endsWith('.png') ||
     requestURL.pathname.endsWith('.jpg') ||
     requestURL.pathname.endsWith('.webp') ||
     requestURL.pathname.endsWith('.json')
-  )) {
+  ) {
     event.respondWith(
-      caches.match(event.request).then(cached => cached || fetch(event.request).then(networkRes => {
-        const copy = networkRes.clone();
-        caches.open(CACHE_NAME).then(c => c.put(event.request, copy));
-        return networkRes;
-      })).catch(() => caches.match('/images/portrait.webp'))
+      (async () => {
+        const cached = await caches.match(event.request);
+        if (cached) return cached;
+
+        try {
+          const networkResponse = await fetch(event.request);
+          if (networkResponse.ok) {
+            try {
+              const cache = await caches.open(CACHE_NAME);
+              await cache.put(event.request, networkResponse.clone());
+            } catch {
+              // A cache write failure should not hide a successful network response.
+            }
+          }
+          return networkResponse;
+        } catch {
+          return new Response('This resource is unavailable offline.', {
+            status: 503,
+            statusText: 'Service Unavailable',
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          });
+        }
+      })()
     );
     return;
   }
 
   // Default: network-first, fallback to cache
   event.respondWith(
-    fetch(event.request).then(res => res).catch(() => caches.match(event.request))
+    (async () => {
+      try {
+        return await fetch(event.request);
+      } catch {
+        const cached = await caches.match(event.request);
+        return cached || new Response('This resource is unavailable offline.', {
+          status: 503,
+          statusText: 'Service Unavailable',
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+        });
+      }
+    })()
   );
 });

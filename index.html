@@ -9,7 +9,7 @@
     />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'sha256-5pttnyE4MZm2RD1sKP0DrgiSpK4iOBlonidy0Yf4QmA=' 'sha256-vO9txf9FPHvzk6o5Szf9lOeJ/J9JyGmwnDTtqe4yafs=' 'sha256-/NChd8CJEqE61lVzKW07nCM4qE3JPsgd3cFk9B5itt0=' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'sha256-MvbFqqaIA9nN40Ezov+IdxqXm6IMvgvNbYmdgCz8rZw='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+      content="default-src 'self'; script-src 'self' 'sha256-vO9txf9FPHvzk6o5Szf9lOeJ/J9JyGmwnDTtqe4yafs=' 'sha256-/NChd8CJEqE61lVzKW07nCM4qE3JPsgd3cFk9B5itt0=' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'sha256-DkDwoNps68gOsZDeQ+JEqPGC9e5It5/zmG1cdmGYddE='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
     />
 
     <!-- Open Graph / Social Sharing -->
@@ -27,15 +27,25 @@
     <link rel="canonical" href="https://samsanders.dev/" />
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#2f5e4e" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#5ec4a8" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#315d50" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#96beac" media="(prefers-color-scheme: dark)" />
 
     <title>Sam Sanders</title>
 
+    <link rel="preload" href="./fonts/newsreader-name-500-v1.woff2" as="font" type="font/woff2" crossorigin />
+
     <style>
+      @font-face {
+        font-family: 'Newsreader';
+        src: url('./fonts/newsreader-name-500-v1.woff2') format('woff2');
+        font-style: normal;
+        font-weight: 500;
+        font-display: optional;
+      }
+
       :root {
-        --color-text: #1f1f1f;
-        --color-accent: #2f5e4e;
+        --color-text: #242826;
+        --color-accent: #315d50;
         --color-background: #f7f5f2;
         --color-background-edge: #e8e5e0;
         --color-muted: #6b6b6b;
@@ -44,8 +54,8 @@
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --color-text: #f7f5f2;
-          --color-accent: #5ec4a8;
+          --color-text: #f0f2ee;
+          --color-accent: #96beac;
           --color-background: #1f1f1f;
           --color-background-edge: #151515;
           --color-muted: #9ca3af;
@@ -124,14 +134,15 @@
         vertical-align: -0.125em;
       }
 
-      /* ── Splash: name in Georgia serif ── */
+      /* A single self-hosted face for the name; system fonts for everything else. */
       h1 {
-        font-family: Georgia, 'Times New Roman', serif;
-        font-size: 2.5rem;
-        font-weight: 700;
+        font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+        font-size: 2.75rem;
+        font-weight: 500;
+        line-height: 1.15;
         margin-top: 0;
         margin-bottom: 0.75rem;
-        color: var(--color-accent);
+        color: var(--color-text);
       }
 
       @media screen and (max-width: 768px) {
@@ -143,7 +154,7 @@
 
       @media screen and (max-width: 420px) {
         h1 {
-          font-size: 1.75rem;
+          font-size: 2rem;
         }
       }
 
@@ -288,25 +299,6 @@
       }
     </style>
 
-    <script>
-      (function() {
-        // Six hues at 60° intervals from the base teal (160°).
-        // S and L are fixed at the values derived from the original accent colors,
-        // so all swatches are perceptually equivalent in weight.
-        var hues = [160, 220, 280, 340, 40, 100];
-        var h = hues[Math.floor(Math.random() * hues.length)];
-        var dark = window.matchMedia('(prefers-color-scheme: dark)');
-        var root = document.documentElement;
-        function apply() {
-          root.style.setProperty('--color-accent', dark.matches
-            ? 'hsl(' + h + ', 46%, 57%)'
-            : 'hsl(' + h + ', 33%, 28%)');
-        }
-        apply();
-        dark.addEventListener('change', apply);
-      })();
-    </script>
-
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -330,6 +322,8 @@
       rel="preload"
       as="image"
       href="./images/portrait-2026-09.webp"
+      imagesrcset="./images/portrait-2026-09-431.webp 431w, ./images/portrait-2026-09.webp 700w"
+      imagesizes="431px"
       type="image/webp"
       fetchpriority="high"
     />

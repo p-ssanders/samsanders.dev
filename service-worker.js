@@ -1,5 +1,6 @@
-const CACHE_NAME = 'samsanders-cache-v7';
+const CACHE_NAME = 'samsanders-cache-v8';
 const CACHE_PREFIX = 'samsanders-cache-';
+const PORTRAIT_FALLBACK = '/images/portrait-v2-280.webp';
 const ASSETS = [
   '/',
   '/index.html',
@@ -11,7 +12,8 @@ const ASSETS = [
   '/apple-touch-icon.png',
   '/android-chrome-192x192.png',
   '/android-chrome-512x512.png',
-  '/images/portrait-2026-09.webp',
+  // Keep a small offline fallback, not an extra full-size portrait download.
+  PORTRAIT_FALLBACK,
   '/robots.txt',
   '/sitemap.xml',
   '/security.txt'
@@ -63,6 +65,12 @@ self.addEventListener('fetch', event => {
           }
           return networkResponse;
         } catch {
+          // A first visit may load its responsive image before this worker takes
+          // control. The small precached portrait also covers offline resizing.
+          if (/^\/images\/portrait-v2-(280|390|560|780)\.webp$/.test(requestURL.pathname)) {
+            const fallback = await caches.match(PORTRAIT_FALLBACK);
+            if (fallback) return fallback;
+          }
           return new Response('This resource is unavailable offline.', {
             status: 503,
             statusText: 'Service Unavailable',

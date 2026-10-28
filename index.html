@@ -9,7 +9,7 @@
     />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'sha256-vO9txf9FPHvzk6o5Szf9lOeJ/J9JyGmwnDTtqe4yafs=' 'sha256-/NChd8CJEqE61lVzKW07nCM4qE3JPsgd3cFk9B5itt0=' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'sha256-DkDwoNps68gOsZDeQ+JEqPGC9e5It5/zmG1cdmGYddE='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+      content="default-src 'self'; script-src 'self' 'sha256-vO9txf9FPHvzk6o5Szf9lOeJ/J9JyGmwnDTtqe4yafs=' 'sha256-/NChd8CJEqE61lVzKW07nCM4qE3JPsgd3cFk9B5itt0=' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'sha256-XqKqVp5/9eAXZeCGQkZwoiDPAtwlKM02UTLKBGiwfVU='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
     />
 
     <!-- Open Graph / Social Sharing -->
@@ -48,8 +48,6 @@
         --color-accent: #315d50;
         --color-background: #f7f5f2;
         --color-background-edge: #e8e5e0;
-        --color-muted: #6b6b6b;
-        --color-surface: rgba(255, 255, 255, 0.4);
       }
 
       @media (prefers-color-scheme: dark) {
@@ -58,8 +56,6 @@
           --color-accent: #96beac;
           --color-background: #1f1f1f;
           --color-background-edge: #151515;
-          --color-muted: #9ca3af;
-          --color-surface: rgba(255, 255, 255, 0.04);
         }
       }
 
@@ -148,7 +144,6 @@
       @media screen and (max-width: 768px) {
         h1 {
           font-size: 2.25rem;
-          white-space: normal;
         }
       }
 
@@ -173,7 +168,6 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        height: auto;
         justify-content: center;
       }
 
@@ -187,11 +181,7 @@
         align-items: center;
       }
 
-      main .column.right h1 {
-        margin-top: 0;
-      }
-
-      /* Splash role text: smaller, muted */
+      /* Role and employer */
       main .column.right > p {
         font-size: 1.25rem;
         color: var(--color-text);

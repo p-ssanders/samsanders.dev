@@ -1,0 +1,3 @@
+# Publish the standard security contact directory with GitHub Pages.
+include:
+  - .well-known

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'samsanders-cache-v8';
+const CACHE_NAME = 'samsanders-cache-v9';
 const CACHE_PREFIX = 'samsanders-cache-';
 const PORTRAIT_FALLBACK = '/images/portrait-v2-280.webp';
 const ASSETS = [

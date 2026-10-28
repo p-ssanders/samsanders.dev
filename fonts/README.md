@@ -5,8 +5,8 @@ in `OFL-Newsreader.txt`). The site serves one local WOFF2: weight 500, optical s
 40, subset to the `h1` text plus a curly apostrophe. Body text uses system fonts.
 
 `font-display: optional` allows the browser to keep the Georgia fallback on a slow
-first visit instead of swapping late. The small font is preloaded and cached by
-the service worker. No font service is contacted by visitors.
+first visit instead of swapping late. The small font is preloaded. No font
+service is contacted by visitors.
 
 ## Rebuilding after a heading change
 
@@ -21,8 +21,6 @@ uv run --with 'fonttools[woff]==4.65.0' scripts/build-heading-font.py /path/to/N
 ```
 
 If the generated font changes, increment the font filename version in the script,
-CSS, preload, and service-worker asset list, and increment the service-worker
-cache version. Recompute the inline style's CSP hash after CSS changes. This
-avoids retaining an old font through the cache-first font strategy.
+CSS, and preload. Recompute the inline style's CSP hash after CSS changes.
 
 Keep this font limited to the heading: it intentionally omits unused characters.

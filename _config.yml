@@ -1,3 +1,8 @@
 # Publish the standard security contact directory with GitHub Pages.
 include:
   - .well-known
+
+# Keep development utilities and regression checks out of the published site.
+exclude:
+  - scripts
+  - tests

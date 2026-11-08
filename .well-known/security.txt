@@ -1,0 +1,5 @@
+Contact: https://github.com/p-ssanders
+Contact: https://www.linkedin.com/in/samuelesanders/
+Expires: 2027-02-12T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://samsanders.dev/.well-known/security.txt

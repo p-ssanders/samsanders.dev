@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sam Sanders is the Principal Engineer at Mechanical Orchard, based in Boulder, Colorado. This is his personal website."
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'sha256-vO9txf9FPHvzk6o5Szf9lOeJ/J9JyGmwnDTtqe4yafs=' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'sha256-p4ZXSRIJLLBt1VvHC2fLbTcnFSFZBMePKL/kERcoMYk='; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cloudflareinsights.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+    />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="Sam Sanders" />
+    <meta property="og:description" content="Principal Engineer at Mechanical Orchard, based in Boulder, Colorado." />
+    <meta property="og:image" content="https://samsanders.dev/images/portrait-2026-09.webp" />
+    <meta property="og:url" content="https://samsanders.dev/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Sam Sanders" />
+    <meta name="twitter:description" content="Principal Engineer at Mechanical Orchard, based in Boulder, Colorado." />
+    <meta name="twitter:image" content="https://samsanders.dev/images/portrait-2026-09.webp" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://samsanders.dev/" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#315d50" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#96beac" media="(prefers-color-scheme: dark)" />
+
+    <title>Sam Sanders</title>
+
+    <link rel="preload" href="./fonts/newsreader-name-500-v1.woff2" as="font" type="font/woff2" crossorigin />
+
+    <style>
+      @font-face {
+        font-family: 'Newsreader';
+        src: url('./fonts/newsreader-name-500-v1.woff2') format('woff2');
+        font-style: normal;
+        font-weight: 500;
+        font-display: optional;
+      }
+
+      :root {
+        --color-text: #242826;
+        --color-accent: #315d50;
+        --color-background: #f7f5f2;
+        --color-background-edge: #e8e5e0;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-text: #f0f2ee;
+          --color-accent: #96beac;
+          --color-background: #1f1f1f;
+          --color-background-edge: #151515;
+        }
+      }
+
+      html,
+      body {
+        color: var(--color-text);
+        margin: 0;
+        padding: 0;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      body {
+        background-color: var(--color-background-edge);
+        background-image: radial-gradient(
+          ellipse 90% 80% at 50% 50%,
+          var(--color-background) 0%,
+          var(--color-background-edge) 100%
+        );
+        background-attachment: fixed;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      @media screen and (max-width: 768px) {
+        body {
+          margin: 0 1rem;
+        }
+      }
+
+      p {
+        font-size: 1.25rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        max-width: 38ch;
+      }
+
+      a {
+        transition: color 0.4s ease-out;
+        color: var(--color-text);
+        text-decoration: underline;
+        text-decoration-color: var(--color-accent);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 2px;
+      }
+
+      a:hover {
+        color: var(--color-accent);
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+      }
+
+      .social-icon {
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+        vertical-align: -0.125em;
+      }
+
+      /* A single self-hosted face for the name; system fonts for everything else. */
+      h1 {
+        font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+        font-size: 2.75rem;
+        font-weight: 500;
+        line-height: 1.15;
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+        color: var(--color-text);
+      }
+
+      @media screen and (max-width: 768px) {
+        h1 {
+          font-size: 2.25rem;
+        }
+      }
+
+      @media screen and (max-width: 420px) {
+        h1 {
+          font-size: 2rem;
+        }
+      }
+
+      main {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+        max-width: 960px;
+        margin: 0 4rem;
+        gap: 4rem;
+        width: 100%;
+      }
+
+      .column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      main .column.right {
+        max-width: 420px;
+        margin: 0 auto;
+        align-items: flex-start;
+      }
+
+      main .column.left {
+        align-items: center;
+      }
+
+      /* Role and employer */
+      main .column.right > p {
+        font-size: 1.25rem;
+        color: var(--color-text);
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      main .column.right .links {
+        margin-top: 1rem;
+        font-size: 1.75rem;
+        display: flex;
+        gap: 0.375rem;
+        margin-left: -0.5rem;
+      }
+
+      main .column.right .links a {
+        width: 44px;
+        height: 44px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease-out, color 0.4s ease-out;
+      }
+
+      main .column.right .links a:hover {
+        transform: scale(1.05);
+      }
+
+      main .column.right .links a:focus-visible {
+        transform: scale(1.05);
+      }
+
+      @media screen and (max-width: 768px) {
+        main {
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 2rem;
+          padding: 2rem 0;
+          margin: 0;
+        }
+
+        .column {
+          flex: none;
+          justify-content: flex-start;
+          width: 100%;
+          align-items: stretch;
+        }
+
+        main .column.left {
+          justify-content: center;
+          flex: none;
+          align-items: center;
+        }
+
+        main .column.right {
+          max-width: none;
+          text-align: left;
+          align-items: flex-start;
+        }
+
+        main div.portrait {
+          margin: 0 auto;
+        }
+
+      }
+
+      /* ── Portrait: larger circular crop with a subtle edge ── */
+      .portrait {
+        position: relative;
+        width: clamp(280px, 30vw, 390px);
+        height: clamp(280px, 30vw, 390px);
+        margin-right: 3%;
+      }
+
+      .portrait img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 10%;
+        border: 1px solid color-mix(in srgb, var(--color-accent) 35%, var(--color-background));
+        border-radius: 50%;
+        display: block;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .portrait canvas {
+        position: absolute;
+        inset: 1px;
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      @media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+        .portrait canvas { display: none; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        a,
+        main .column.right .links a {
+          transition: none;
+        }
+
+        main .column.right .links a:hover,
+        main .column.right .links a:focus-visible {
+          transform: none;
+        }
+      }
+    </style>
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./favicon-16x16.png"
+    />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link
+      rel="preload"
+      as="image"
+      href="./images/portrait-v2-390.webp"
+      imagesrcset="./images/portrait-v2-280.webp 280w, ./images/portrait-v2-390.webp 390w, ./images/portrait-v2-560.webp 560w, ./images/portrait-v2-780.webp 780w"
+      imagesizes="(max-width: 933px) 280px, (max-width: 1300px) 30vw, 390px"
+      type="image/webp"
+      fetchpriority="high"
+    />
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sam Sanders",
+      "jobTitle": "Principal Engineer",
+      "url": "https://samsanders.dev",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Mechanical Orchard",
+        "url": "https://www.mechanical-orchard.com/"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/samuelesanders/",
+        "https://github.com/p-ssanders"
+      ],
+      "image": "https://samsanders.dev/images/portrait-2026-09.webp"
+    }
+    </script>
+
+    <script>
+      // Lazy-load Google Tag Manager
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+
+      function loadGTM() {
+        if (window.gtmLoaded) return;
+        window.gtmLoaded = true;
+
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4YM1E66P9D';
+        document.head.appendChild(script);
+
+        gtag('js', new Date());
+        gtag('config', 'G-4YM1E66P9D');
+      }
+
+      // Load on interaction
+      ['scroll','keydown','pointerdown','click'].forEach(function(ev){
+        window.addEventListener(ev, loadGTM, {once:true, passive:true});
+      });
+
+      // Fallback: load after 2 seconds
+      setTimeout(loadGTM, 2000);
+    </script>
+  </head>
+
+  <body>
+    <main>
+      <div class="column left">
+        <div class="portrait">
+          <img
+            src="./images/portrait-v2-390.webp"
+            srcset="./images/portrait-v2-280.webp 280w, ./images/portrait-v2-390.webp 390w, ./images/portrait-v2-560.webp 560w, ./images/portrait-v2-780.webp 780w"
+            sizes="(max-width: 933px) 280px, (max-width: 1300px) 30vw, 390px"
+            alt="Portrait of Sam Sanders"
+            draggable="false"
+            width="780"
+            height="1040"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+      <div class="column right">
+        <h1>I'm Sam Sanders.</h1>
+
+        <p>
+          I'm the Principal Engineer at
+          <a target="_blank" href="https://www.mechanical-orchard.com/" rel="noopener noreferrer">Mechanical Orchard</a>.
+        </p>
+
+        <div class="links">
+          <a target="_blank" rel="me noopener noreferrer" href="https://www.linkedin.com/in/samuelesanders/" title="LinkedIn" aria-label="Visit Sam Sanders on LinkedIn">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+          </a>
+          <a target="_blank" rel="me noopener noreferrer" href="https://github.com/p-ssanders" title="GitHub" aria-label="Visit Sam Sanders on GitHub">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+          <a target="_blank" rel="me noopener noreferrer" href="https://app.ens.domains/samsanders.eth" title="samsanders.eth" aria-label="View samsanders.eth on ENS">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0 4.5 12.25 12 16.7l7.5-4.45L12 0Zm0 18.2-7.5-4.45L12 24l7.5-10.25L12 18.2Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </main>
+  <script src="./portrait.js" defer></script>
+  </body>
+</html>
